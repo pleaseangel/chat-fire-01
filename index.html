@@ -608,7 +608,20 @@
             document.getElementById('premium-results').classList.remove('hidden');
             displayAllIdeas();
         }
-
+ // Add Payment Success Detection
+        function checkForPaymentSuccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                // User just paid successfully
+                showPremiumResults();
+                
+                // Clean up the URL so they don't see ?success=true
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Optional: Show success message
+                console.log('Payment successful - showing premium content');
+            }
+        }
         // Auth Functions
         function showLoginForm() {
             const email = prompt('Enter your email:');
