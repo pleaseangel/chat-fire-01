@@ -1,0 +1,29 @@
+{
+  "name": "startup-idea-generator",
+  "version": "1.0.0",
+  "description": "A $100 startup idea generator with personalized business plans",
+  "main": "index.html",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests specified'"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "startup",
+    "business-ideas",
+    "netlify",
+    "stripe",
+    "firebase"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
