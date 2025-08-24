@@ -554,15 +554,11 @@
         function selectTimeOption(option) {
         // Handle Upgrade (Payment)
         async function handleUpgrade() {
-            if (!stripe) {
-                alert('Payment system is loading. Please try again in a moment.');
-                return;
-            }
-            
             try {
-                // This would integrate with your backend payment system
-                alert('Payment integration would go here! For now, showing premium results...');
-                showPremiumResults();
+                const res = await fetch('/.netlify/functions/create-checkout', { method: 'POST' });
+                if (!res.ok) throw new Error('Checkout function error');
+                const { url } = await res.json();
+                window.location.href = url;
             } catch (error) {
                 console.error('Payment error:', error);
                 alert('Payment failed. Please try again.');
@@ -678,55 +674,25 @@
             return true;
         }
 
-        // Generate Ideas (Mock function - replace with actual AI API call)
+        // Generate Ideas via Netlify Function
         async function generateIdeas() {
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            
-            // Mock ideas (replace with actual AI-generated content)
-            generatedIdeas = [
-                {
-                    name: "Social Media Content Service",
-                    description: "Create engaging posts for small businesses in your area using your writing and social media skills.",
-                    startup_cost: "$25",
-                    difficulty: "⭐⭐⭐",
-                    feasibility_score: "8.5/10",
-                    timeline: "5-7 days",
-                    today_action: "Create 3 sample posts for local restaurants and reach out to 5 businesses",
-                    week_plan: [
-                        "Day 1: Research local businesses, create portfolio samples",
-                        "Day 2-3: Cold outreach via email and social media",
-                        "Day 4-5: Client consultations and first paid posts",
-                        "Day 6-7: Deliver work and collect payments"
-                    ],
-                    tools_needed: [
-                        { name: "Canva Pro", cost: "$15/month" },
-                        { name: "Buffer", cost: "$6/month" }
-                    ],
-                    success_example: "Maria made $180 in her first week helping 3 local cafes with their Instagram content."
-                },
-                {
-                    name: "Virtual Tutoring Service",
-                    description: "Offer online tutoring in subjects you're strong in using video calls and screen sharing.",
-                    startup_cost: "$15",
-                    difficulty: "⭐⭐",
-                    feasibility_score: "9.2/10",
-                    timeline: "3-5 days",
-                    today_action: "Sign up on 3 tutoring platforms and create your profile with rates at $25/hour",
-                    week_plan: [
-                        "Day 1: Create profiles on Wyzant, Tutor.com, and local Facebook groups",
-                        "Day 2-3: Respond to student inquiries and schedule first sessions",
-                        "Day 4-7: Conduct tutoring sessions and build reputation"
-                    ],
-                    tools_needed: [
-                        { name: "Zoom Pro", cost: "$15/month" },
-                        { name: "Digital Whiteboard", cost: "Free" }
-                    ],
-                    success_example: "Jake earned $120 in 4 days tutoring high school math online."
-                }
-            ];
-            
-            // Display first idea as free sample
+            const skillsInput = document.getElementById('skills-input').value;
+            const skills = selectedSkills.length ? selectedSkills.join(', ') : skillsInput;
+            const payload = {
+                skills,
+                time: selectedTime,
+                budget: selectedBudget,
+                market: selectedMarket
+            };
+            const res = await fetch('/.netlify/functions/generate-ideas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error('AI function failed');
+            const data = await res.json();
+            generatedIdeas = data.ideas || [];
+            if (!generatedIdeas.length) throw new Error('No ideas returned');
             displayFreeSample(generatedIdeas[0]);
         }
 
