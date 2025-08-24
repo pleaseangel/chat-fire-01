@@ -531,7 +531,7 @@
         // Auth State Checker
         function checkAuthState() {
             if (window.firebase && window.firebase.auth) {
-                window.firebase.auth.onAuthStateChanged((user) => {
+               onAuthStateChanged(window.firebase.auth, (user) => {
                     if (user) {
                         currentUser = user;
                         document.getElementById('auth-buttons').classList.add('hidden');
