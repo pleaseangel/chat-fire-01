@@ -42,7 +42,11 @@ Return: {"ideas":[ ... ]}.
   
   if (!r.ok) return { statusCode: 502, body: "AI error" };
   const data = await r.json();
-  const txt = data.choices?.[0]?.message?.content?.trim() || "{}";
+  let txt = data.choices?.[0]?.message?.content?.trim() || "{}";
+// Remove markdown code blocks if present
+if (txt.startsWith('```json')) {
+  txt = txt.replace(/```json\n?/g, '').replace(/\n?```$/g, '');
+};
   console.log("OpenAI returned:", txt);
   
   try {
