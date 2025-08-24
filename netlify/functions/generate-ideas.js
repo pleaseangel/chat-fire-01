@@ -16,7 +16,7 @@ For each idea, create a detailed, compelling business plan with:
 - difficulty ("⭐" to "⭐⭐⭐⭐") 
 - feasibility_score ("X.X/10")
 - timeline ("5-8 days")
-- today_action (detailed 2-hour action plan with specific steps, templates, messages, and psychological triggers. Include exact timeframes, specific platforms, copy-paste templates, expected outcomes, and compelling language that motivates action)
+- today_action (return as a formatted STRING, not object - detailed 2-hour action plan with specific steps, templates, messages, and psychological triggers. Include exact timeframes, specific platforms, copy-paste templates, expected outcomes, and compelling language that motivates action)
 - success_example (specific, unique story with name, amount earned, and timeframe)
 
 Make today_action compelling and actionable with specific instructions, not generic advice.
