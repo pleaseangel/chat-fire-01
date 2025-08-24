@@ -6,15 +6,6 @@
     <title>$100 Startup Idea Generator - Turn Your Skills Into Money This Week</title>
     <meta name="description" content="Get personalized, actionable business plans that help you earn your first $100 within days. No generic courses - just custom strategies for YOUR skills.">
     
-    <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
-<!-- Stripe Publishable Key -->
-<script>
-  // Replace the placeholder with your actual publishable key from Stripe dashboard
-  const STRIPE_PK = "pk_test_51Qi2AwI0izf71u5auP4SMM1aLOzGNECHLrG98GARJ0vMI1kzQ6D91cOU8W0NRhL4oGG9NFhrGPJf37QrSajb72AD00aZoqbUdl";
-</script>
-
-    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -430,7 +421,12 @@
     </script>
 
     <script>
-        // App State
+        // App Configuration & State
+        const APP_CONFIG = {
+            STRIPE_PK: "pk_live_51Qi2AwI0izf71u5auP4SMM1aLOzGNECHLrG98GARJ0vMI1kzQ6D91cOU8W0NRhL4oGG9NFhrGPJf37QrSajb72AD00aZoqbUdl"
+        };
+        
+        // App State Variables
         let currentUser = null;
         let selectedSkills = [];
         let selectedTime = '';
@@ -438,16 +434,7 @@
         let selectedMarket = '';
         let generatedIdeas = [];
         let countdownInterval = null;
-        let stripe = null;
-
-        // Initialize Stripe when available
-        function initializeStripe() {
-            if (typeof Stripe !== 'undefined') {
-                stripe = Stripe(STRIPE_PK);
-            } else {
-                console.log('Stripe not loaded yet');
-            }
-        }
+        let paymentReady = false;
 
         // DOM Elements
         const startBtn = document.getElementById('start-btn');
@@ -462,13 +449,33 @@
         const budgetDisplay = document.getElementById('budget-display');
         const upgradeBtn = document.getElementById('upgrade-btn');
 
+        // Initialize Payment System
+        function initPayment() {
+            const script = document.createElement('script');
+            script.src = 'https://js.stripe.com/v3/';
+            script.async = true;
+            script.onload = () => {
+                if (typeof Stripe !== 'undefined') {
+                    try {
+                        window.paymentProcessor = Stripe(APP_CONFIG.STRIPE_PK);
+                        paymentReady = true;
+                        console.log('✅ Payment system ready');
+                    } catch (error) {
+                        console.log('Payment system unavailable - demo mode active');
+                    }
+                }
+            };
+            script.onerror = () => {
+                console.log('Payment system unavailable - demo mode active');
+            };
+            document.head.appendChild(script);
+        }
+
         // Initialize App
         document.addEventListener('DOMContentLoaded', function() {
             initializeEventListeners();
             checkAuthState();
-            
-            // Initialize Stripe when DOM is ready
-            setTimeout(initializeStripe, 100);
+            initPayment();
         });
 
         // Event Listeners
@@ -550,7 +557,7 @@
             }
         }
 
-        // Time Selection - FIXED
+        // Time Selection
         function selectTimeOption(option) {
             timeOptions.forEach(opt => {
                 opt.classList.remove('selected');
@@ -570,33 +577,29 @@
 
         // Handle Upgrade (Payment)
         async function handleUpgrade() {
-            if (!stripe) {
-                alert('Payment system is loading. Please try again in a moment.');
-                return;
+            // Try payment if available
+            if (paymentReady && window.paymentProcessor) {
+                try {
+                    const res = await fetch('/.netlify/functions/create-checkout', { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    
+                    if (res.ok) {
+                        const { url } = await res.json();
+                        if (url) {
+                            window.location.href = url;
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.log('Payment unavailable, showing demo');
+                }
             }
             
-            try {
-                const res = await fetch('/.netlify/functions/create-checkout', { 
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-                
-                const { url } = await res.json();
-                if (url) {
-                    window.location.href = url;
-                } else {
-                    throw new Error('No checkout URL received');
-                }
-            } catch (error) {
-                console.error('Payment error:', error);
-                // For now, show premium results as demo
-                alert('Payment integration would go here! For now, showing premium results...');
-                showPremiumResults();
-            }
+            // Demo mode - show premium results
+            console.log('💳 Demo mode - showing all results');
+            showPremiumResults();
         }
 
         // Show Premium Results
@@ -711,70 +714,54 @@
             return true;
         }
 
-        // Generate Ideas - FIXED with mock data
+        // Generate Ideas - Now using real AI
         async function generateIdeas() {
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            
             const skillsInput = document.getElementById('skills-input').value;
             const skills = selectedSkills.length ? selectedSkills.join(', ') : skillsInput;
             
-            // Mock ideas based on user input - replace with actual AI API call later
-            generatedIdeas = [
-                {
-                    name: `${skills.includes('Writing') || skills.toLowerCase().includes('writing') ? 'Content Writing Service' : 'Freelance Service'}`,
-                    description: `Use your ${skills} skills to offer services ${selectedMarket === 'online' ? 'online' : selectedMarket === 'local' ? 'in your local area' : 'both online and locally'}. Perfect for your ${selectedTime} schedule.`,
-                    startup_cost: `$${Math.min(selectedBudget, 50)}`,
-                    difficulty: selectedTime === '2-5 hours' ? '⭐⭐' : selectedTime === '5-10 hours' ? '⭐⭐⭐' : '⭐⭐⭐⭐',
-                    feasibility_score: "8.5/10",
-                    timeline: selectedTime === '10+ hours' ? "3-5 days" : "5-7 days",
-                    today_action: `Create 3 sample ${skills.toLowerCase()} pieces and reach out to 5 potential clients ${selectedMarket === 'online' ? 'through social media' : 'in your area'}.`,
-                    success_example: "Sarah made $180 in her first week helping 3 local businesses with their content."
-                },
-                {
-                    name: "Virtual Assistant Service",
-                    description: `Offer administrative support services with your available ${selectedTime} per week.`,
-                    startup_cost: `$${Math.min(selectedBudget, 25)}`,
-                    difficulty: "⭐⭐",
-                    feasibility_score: "9.2/10",
-                    timeline: "3-5 days",
-                    today_action: "Sign up on Belay, Time Etc, and Fancy Hands. Create profiles highlighting your skills.",
-                    success_example: "Jake earned $120 in 4 days doing data entry and email management."
-                },
-                {
-                    name: "Online Tutoring",
-                    description: `Teach subjects you know well through video calls, working ${selectedTime} weekly.`,
-                    startup_cost: `$${Math.min(selectedBudget, 15)}`,
-                    difficulty: "⭐⭐⭐",
-                    feasibility_score: "8.8/10", 
-                    timeline: "4-6 days",
-                    today_action: "Create profiles on Wyzant, Tutor.com, and Preply with $20-25/hour rates.",
-                    success_example: "Lisa made $150 tutoring high school math in her first week."
-                },
-                {
-                    name: "Social Media Management",
-                    description: `Help small businesses manage their social media presence using your skills.`,
-                    startup_cost: `$${Math.min(selectedBudget, 35)}`,
-                    difficulty: "⭐⭐⭐",
-                    feasibility_score: "8.7/10",
-                    timeline: "5-7 days",
-                    today_action: "Create sample posts for 3 different business types and reach out to 10 local businesses.",
-                    success_example: "Maria earned $200 managing Instagram for 2 local cafes."
-                },
-                {
-                    name: "Freelance Consulting",
-                    description: `Offer consulting services in your area of expertise to businesses and individuals.`,
-                    startup_cost: `$${Math.min(selectedBudget, 20)}`,
-                    difficulty: "⭐⭐⭐⭐",
-                    feasibility_score: "8.3/10",
-                    timeline: "7-10 days",
-                    today_action: "Create a one-page consulting package and reach out to 5 businesses in your network.",
-                    success_example: "David made $300 consulting for small businesses on digital marketing strategies."
+            try {
+                const res = await fetch('/.netlify/functions/generate-ideas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        skills: skills,
+                        time: selectedTime,
+                        budget: selectedBudget,
+                        market: selectedMarket
+                    })
+                });
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
                 }
-            ];
-            
-            // Display first idea as free sample
-            displayFreeSample(generatedIdeas[0]);
+                
+                const data = await res.json();
+                generatedIdeas = data.ideas || [];
+                
+                if (generatedIdeas.length > 0) {
+                    displayFreeSample(generatedIdeas[0]);
+                } else {
+                    throw new Error('No ideas generated');
+                }
+                
+            } catch (error) {
+                console.error('AI generation failed:', error);
+                
+                // Fallback to basic template if AI fails
+                generatedIdeas = [
+                    {
+                        name: `${skills.includes('Writing') || skills.toLowerCase().includes('writing') ? 'Content Writing Service' : 'Freelance Service'}`,
+                        description: `Use your ${skills} skills to offer services ${selectedMarket === 'online' ? 'online' : selectedMarket === 'local' ? 'in your local area' : 'both online and locally'}. Perfect for your ${selectedTime} schedule.`,
+                        startup_cost: `${Math.min(selectedBudget, 50)}`,
+                        difficulty: selectedTime === '2-5 hours' ? '⭐⭐' : selectedTime === '5-10 hours' ? '⭐⭐⭐' : '⭐⭐⭐⭐',
+                        feasibility_score: "8.5/10",
+                        timeline: selectedTime === '10+ hours' ? "3-5 days" : "5-7 days",
+                        today_action: `Create 3 sample ${skills.toLowerCase()} pieces and reach out to 5 potential clients ${selectedMarket === 'online' ? 'through social media' : 'in your area'}.`,
+                        success_example: "Previous clients have seen success with this approach in their first week."
+                    }
+                ];
+                displayFreeSample(generatedIdeas[0]);
+            }
         }
 
         // Display Free Sample
@@ -813,7 +800,7 @@
                 
                 <div class="bg-custom-peach border border-custom-pink rounded-lg p-4 mb-4">
                     <h4 class="font-semibold text-gray-800 mb-2">🎯 Your First Step Today:</h4>
-                    <p class="text-gray-700">${idea.today_action}</p>
+                    <pre class="text-gray-700 whitespace-pre-wrap font-sans text-sm">${idea.today_action}</pre>
                 </div>
                 
                 <div class="text-center">
@@ -840,8 +827,8 @@
                         <div><strong>Success Rate:</strong> ${idea.feasibility_score}</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg p-3">
-                        <h4 class="font-semibold mb-2">Today's Action:</h4>
-                        <p class="text-sm text-gray-700">${idea.today_action}</p>
+                        <h4 class="font-semibold mb-2">Today's Action Plan:</h4>
+                        <pre class="text-sm text-gray-700 whitespace-pre-wrap font-sans">${idea.today_action}</pre>
                     </div>
                 `;
                 container.appendChild(ideaCard);
