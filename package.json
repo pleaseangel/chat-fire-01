@@ -1,6 +1,7 @@
 {
   "name": "startup-idea-generator",
   "version": "1.0.0",
+  "type": "module",
   "description": "A $100 startup idea generator with personalized business plans",
   "main": "index.html",
   "scripts": {
