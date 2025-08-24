@@ -46,7 +46,9 @@ Return: {"ideas":[ ... ]}.
   if (!r.ok) return new Response("AI error", { status: 502 });
   const data = await r.json();
   const txt = data.choices?.[0]?.message?.content?.trim() || "{}";
-  
+  console.log("OpenAI returned:", txt);
+try {
+    const parsed = JSON.parse(txt);
   try {
     const parsed = JSON.parse(txt);
     return new Response(JSON.stringify(parsed), {
