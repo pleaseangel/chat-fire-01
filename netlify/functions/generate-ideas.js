@@ -8,17 +8,26 @@ exports.handler = async (event, context) => {
   const prompt = `
 Return strictly valid JSON. No commentary.
 Generate 5 startup ideas under $${budget} for someone with ${skills} skills, ${time} available, targeting ${market} market.
-For each idea, create a detailed, compelling business plan with:
-- name (creative, specific business name)
+
+CRITICAL: Make today_action EXTREMELY specific with ready-to-use copy-paste content. No research tasks, no "figure out" instructions. Give them exactly what to do, say, and where to go.
+
+FORMATTING: Structure today_action with clear time blocks and line breaks using \\n for readability.
+
+For each idea include:
+- name (creative, specific business name)  
 - description (compelling 3-4 sentences)
 - startup_cost (like "$47")
-- difficulty ("⭐" to "⭐⭐⭐⭐") 
-- feasibility_score ("X.X/10")
+- difficulty ("⭐" to "⭐⭐⭐⭐")
+- feasibility_score ("X.X/10") 
 - timeline ("5-8 days")
-- today_action (return as a formatted STRING, not object - detailed 2-hour action plan with specific 3 to 4 steps, templates, messages, and psychological triggers. Include exact timeframes, specific platforms, copy-paste templates, expected outcomes, and compelling language that motivates action)
+- today_action (SPECIFIC 2-hour action plan formatted with \\n line breaks. Include EXACT copy-paste templates, specific websites, exact messages to send, precise pricing recommendations. Structure as: TIME: ACTION with ready-to-use content. NO research tasks - provide the actual content they need.)
 - success_example (specific, unique story with name, amount earned, and timeframe)
-Make today_action compelling and actionable with specific instructions in how to do it, not generic advice.
+
+Example formatting for today_action:
+"🕙 10:00 AM - 10:30 AM: Sign up at fiverr.com\\n• Create gig: 'I will write compelling product descriptions that sell'\\n• Set price: $15\\n• Use this exact description: 'Get product descriptions that convert browsers into buyers. I write compelling copy that highlights benefits and triggers purchases. 24-hour delivery guaranteed.'\\n\\n🕙 10:30 AM - 11:30 AM: Contact potential clients\\n• Send this message to 10 Etsy shop owners: 'Hi [Name]! Love your [product type] but noticed your descriptions could be more compelling. I write product copy that increases sales. Would you like a free sample rewrite of one product description? No strings attached - just want to show you what's possible!'\\n\\nExpected result: 2-3 interested responses within 24 hours."
+
 Return: {"ideas":[ ... ]}.
+`;
 `;
   
   const apiKey = process.env.OPENAI_API_KEY;
