@@ -329,7 +329,7 @@ Get the Complete Implementation System with:
                 <div class="bg-custom-peach rounded-2xl p-8 text-center">
                     <h3 class="text-2xl font-bold mb-4 text-gray-800">🎯 Your Success Toolkit</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <button id="download-pdf" class="bg-custom-purple text-white px-6 py-4 rounded-lg hover:bg-custom-lavender transition-colors">
+                        <button id="download-pdf" class="bg-custom-purple text-white px-6 py-4 rounded-lg hover:bg-custom-lavender transition-colors" onclick="downloadPDF()">
                             📄 Download PDF Guide
                         </button>
                         <button id="track-progress" class="bg-custom-lavender text-white px-6 py-4 rounded-lg hover:bg-custom-purple transition-colors">
@@ -883,6 +883,31 @@ Get the Complete Implementation System with:
             }, 1000);
         }
     </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  // Get the business data (assumes generatedIdeas is available)
+  const businessName = window.generatedIdeas?.[0]?.name || 'Your Business Plan';
+  const description = window.generatedIdeas?.[0]?.description || '';
+  const actionPlan = window.generatedIdeas?.[0]?.today_action || '';
+  
+  // Create PDF content
+  doc.setFontSize(16);
+  doc.text(`${businessName} - Implementation Guide`, 20, 20);
+  
+  doc.setFontSize(12);
+  doc.text('Business Description:', 20, 40);
+  doc.text(description, 20, 50, { maxWidth: 170 });
+  
+  doc.text('Today\'s Action Plan:', 20, 90);
+  doc.text(actionPlan, 20, 100, { maxWidth: 170 });
+  
+  // Download the PDF
+  doc.save(`${businessName.replace(/[^a-zA-Z0-9]/g, '-')}-Implementation-Guide.pdf`);
+}
+</script>
 </body>
 </html>
