@@ -1,48 +1,51 @@
+// netlify/functions/generate-ideas.js
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method not allowed" };
   }
 
-  const { skills = "", time = "", budget = "", market = "", location = "" } = JSON.parse(event.body || "{}");
+  const { skills = "", time = "", budget = "", market = "", location = "" } =
+    JSON.parse(event.body || "{}");
 
   const prompt = `
-You are an operator. Output only JSON.
+You are an execution-focused business operator. Output JSON only.
 
-User profile:
+User:
 - skills: ${skills}
-- weekly_time: ${time}
+- time_per_week: ${time}
 - budget_usd: ${budget}
 - market: ${market}
 - location: ${location || "unspecified"}
 
-Task: Generate 5 **non-generic** business ideas that can start under the budget and fit the weekly time.
-Rules to avoid generic output:
-- No phrases like "leverage social media", "offer services", "do market research".
-- Name a **specific niche** and **specific customer**.
-- Name **exact platforms/places** (e.g., "Facebook Marketplace Canada", "Nextdoor Caledon", "Etsy").
-- Include **prices**, **quantities**, and **numbers**.
+Goal: Generate 5 **non-generic** ideas that can start under budget and fit time.
 
-Return strictly:
+Hard rules (reject clichés):
+- Do NOT say "leverage social media", "offer services", "do market research", "build a brand".
+- Each idea must name a **specific niche**, **specific customer**, and **specific platform/place** to sell.
+- Include **numbers**: price, cost, qty, conversion assumptions, first-week target.
+- “today_action” must be a 2-hour checklist with timestamps and copy-paste text (DM/email/post).
+- Keep everything concrete and persuasive.
+
+Return strictly this JSON (no extra fields):
 {
-  "ideas": [
+  "ideas":[
     {
-      "name": "...",
-      "description": "3-4 sentences with niche, customer, platform, and numbers.",
+      "name": "…",
+      "description": "3–4 sentences. Name niche, customer, platform, and 2–3 numbers.",
       "startup_cost": "$NN",
       "difficulty": "⭐ to ⭐⭐⭐⭐",
       "feasibility_score": "X.X/10",
       "timeline": "5-8 days",
-      "today_action": "A 2-hour checklist with timestamps, copy-paste outreach script, post captions, and where to click.",
+      "today_action": "00:00–00:20 …\\n00:20–01:10 …\\n01:10–02:00 …\\nDM script: “…”\\nPost caption: “…”",
       "success_example": "Specific story with name, amount, timeframe."
     }
   ]
 }
 
-Validation rubric (must pass before you answer):
-- Each idea names a platform and customer segment.
-- Each description contains at least two numbers (price, qty, response rates, CPM, leads/day, etc.).
-- "today_action" is a checklist with timestamps and a verb at the start of each step.
-If any idea fails, fix it and only then return the JSON.
+Validation before answering:
+- Every idea names at least one exact platform (e.g., “Etsy”, “Facebook Marketplace Canada”, “Nextdoor Caledon”, “Pinterest”).
+- Description includes at least two numbers.
+- “today_action” uses timestamps and includes at least one script.
 `;
 
   const apiKey = process.env.OPENAI_API_KEY;
@@ -50,13 +53,13 @@ If any idea fails, fix it and only then return the JSON.
 
   const r = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "gpt-4o",
       response_format: { type: "json_object" },
-      temperature: 0.25,
+      temperature: 0.3,
       messages: [
-        { role: "system", content: "Return valid JSON only." },
+        { role: "system", content: "Return valid JSON only. Be specific and numeric." },
         { role: "user", content: prompt }
       ]
     })
@@ -66,10 +69,8 @@ If any idea fails, fix it and only then return the JSON.
 
   const data = await r.json();
   let txt = data.choices?.[0]?.message?.content?.trim() || "{}";
-
-  // Remove accidental code fences
   if (txt.startsWith("```")) {
-    txt = txt.replace(/^```json?\s*/i, "").replace(/```$/,"");
+    txt = txt.replace(/^```json?\s*/i, "").replace(/```$/i, "");
   }
 
   try {
