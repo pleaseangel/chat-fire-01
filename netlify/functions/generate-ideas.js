@@ -8,44 +8,81 @@ exports.handler = async (event) => {
     JSON.parse(event.body || "{}");
 
   const prompt = `
-You are an execution-focused business operator. Output JSON only.
+You are a no-nonsense, execution-focused business coach. Be empathic to users burned by online scams.
+You help people start legitimate, sustainable businesses that can support families long-term.
+Never suggest "selling courses" or schemes; focus on tangible products/services and honest value.
 
-User:
+User profile:
 - skills: ${skills}
 - time_per_week: ${time}
 - budget_usd: ${budget}
 - market: ${market}
 - location: ${location || "unspecified"}
 
-Goal: Generate 5 **non-generic** ideas that can start under budget and fit time.
+GOAL
+Create 5 non-generic business ideas that fit the budget/time and can reach the first $100 fast,
+while outlining a path to a durable business over the next 3–6 months.
 
-Hard rules (reject clichés):
-- Do NOT say "leverage social media", "offer services", "do market research", "build a brand".
-- Each idea must name a **specific niche**, **specific customer**, and **specific platform/place** to sell.
-- Include **numbers**: price, cost, qty, conversion assumptions, first-week target.
-- “today_action” must be a 2-hour checklist with timestamps and copy-paste text (DM/email/post).
-- Keep everything concrete and persuasive.
+HARD RULES (reject clichés)
+- Do NOT use phrases like "leverage social media", "do market research", "build a brand".
+- Each idea MUST name: a specific niche, a specific customer, and a specific platform/place to sell.
+- Include concrete NUMBERS: price, unit cost, quantities, fees %, conversion assumptions, day-1/week-1 targets.
+- "immediate_action_2h" MUST be a timestamped 2-hour checklist AND include at least:
+  • one copy-paste outreach DM/email script, and
+  • one ready-to-post caption/title for the platform.
+- Use a different first name per idea from [Ava, Maya, Liam, Noah, Aiden, Zoe, Mateo, Amara, Kingston, Priya]. Do NOT repeat.
+- Anchor to location when relevant (e.g., "Nextdoor ${location}", "Facebook Marketplace ${location}", local keywords).
+- No course selling, no MLM, no fake scarcity.
 
-Return strictly this JSON (no extra fields):
+RETURN STRICTLY THIS JSON (no extra fields; numbers as numbers):
 {
-  "ideas":[
+  "ideas": [
     {
       "name": "…",
-      "description": "3–4 sentences. Name niche, customer, platform, and 2–3 numbers.",
-      "startup_cost": "$NN",
+      "niche": "…",
+      "customer": "…",
+      "platform": "Etsy | Facebook Marketplace ${location} | Nextdoor ${location} | Pinterest | Teachers Pay Teachers | Fiverr | Thumbtack | local fairs …",
+      "description": "3–4 sentences with at least two numbers and the exact platform.",
+      "unit_price_usd": 0,
+      "unit_cost_usd": 0,
+      "startup_cost_usd": 0,
+      "gross_margin_pct": 0,
+      "first_100_math": "e.g., 5 units × $22 = $110 revenue; fees 12% → $96.8; COGS $35 → ~$61.8 net.",
       "difficulty": "⭐ to ⭐⭐⭐⭐",
       "feasibility_score": "X.X/10",
       "timeline": "5-8 days",
-      "today_action": "00:00–00:20 …\\n00:20–01:10 …\\n01:10–02:00 …\\nDM script: “…”\\nPost caption: “…”",
-      "success_example": "Specific story with name, amount, timeframe."
+      "plan": {
+        "immediate_action_2h": "00:00–00:20 …\\n00:20–01:10 …\\n01:10–02:00 …\\nDM script: \"…\"\\nPost caption: \"…\"",
+        "first_week": [
+          "Day 1: target, quantity, price, outreach count…",
+          "Day 2: …",
+          "Day 3: …",
+          "Day 4: …",
+          "Day 5–7: … with numeric targets"
+        ],
+        "next_steps": [
+          "After $100: raise price from $X to $Y, add upsell Z, simple systemization W."
+        ]
+      },
+      "acquisition": [
+        { "channel": "Platform search", "steps": ["…"], "kpis": {"impressions": 0, "clicks": 0, "cr_pct": 0} },
+        { "channel": "Outbound DM", "steps": ["…"], "kpis": {"dms": 0, "replies": 0, "cr_pct": 0} }
+      ],
+      "risks": [
+        {"risk": "…", "mitigation": "…"}
+      ],
+      "legacy_path": "How this becomes a stable, family-supporting business in 3–6 months: milestones with monthly revenue targets.",
+      "success_story": "«<RandomName> from <city> sold <qty> in <days>, netting $<profit>.»"
     }
   ]
 }
 
-Validation before answering:
-- Every idea names at least one exact platform (e.g., “Etsy”, “Facebook Marketplace Canada”, “Nextdoor Caledon”, “Pinterest”).
-- Description includes at least two numbers.
-- “today_action” uses timestamps and includes at least one script.
+VALIDATOR (apply before answering; fix any failures):
+- Each idea names a specific platform and customer segment.
+- Description contains ≥ 2 numbers.
+- "immediate_action_2h" uses timestamps and includes one DM/email script and one post caption.
+- "first_100_math" shows explicit math to $100 and approximate net after fees/COGS.
+- Different name from the list is used in each success_story.
 `;
 
   const apiKey = process.env.OPENAI_API_KEY;
@@ -57,9 +94,9 @@ Validation before answering:
     body: JSON.stringify({
       model: "gpt-4o",
       response_format: { type: "json_object" },
-      temperature: 0.3,
+      temperature: 0.25,
       messages: [
-        { role: "system", content: "Return valid JSON only. Be specific and numeric." },
+        { role: "system", content: "Return valid JSON only. Be specific, numeric, and execution-focused." },
         { role: "user", content: prompt }
       ]
     })
@@ -69,13 +106,19 @@ Validation before answering:
 
   const data = await r.json();
   let txt = data.choices?.[0]?.message?.content?.trim() || "{}";
+
+  // Strip accidental code fences
   if (txt.startsWith("```")) {
     txt = txt.replace(/^```json?\s*/i, "").replace(/```$/i, "");
   }
 
   try {
     const parsed = JSON.parse(txt);
-    return { statusCode: 200, headers: { "Content-Type": "application/json" }, body: JSON.stringify(parsed) };
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(parsed)
+    };
   } catch {
     return { statusCode: 502, body: "Bad JSON from AI" };
   }
