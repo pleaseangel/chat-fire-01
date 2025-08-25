@@ -1,12 +1,10 @@
-// netlify/functions/generate-ideas.js
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method not allowed" };
   }
-
   const { skills = "", time = "", budget = "", market = "", location = "" } =
     JSON.parse(event.body || "{}");
-
+    
   const prompt = `
 You are a trusted business mentor with 20+ years helping people escape corporate jobs and build legitimate family businesses. You despise get-rich-quick schemes, MLM traps, and "make money online" courses.
 
@@ -28,20 +26,22 @@ FOCUS ON: Physical products, skilled services, solving genuine local problems, h
 
 Goal: Generate 1 legitimate business opportunity that creates real value for customers, can start under budget and time constraints, and has potential to grow into a sustainable family business.
 
-Provide enough detail to show credibility and immediate action steps, but leave clear gaps that would require additional implementation guidance to execute successfully at scale.
-
 Hard rules (reject clichés):
-- Do NOT say "leverage social media", "offer services", "do market research", "build a brand".
-- Each idea must name a **specific niche**, **specific customer**, and **specific platform/place** to sell.
-- Include **numbers**: price, cost, qty, conversion assumptions, first-week target.
-- “today_action” must be a 2-hour checklist with timestamps and copy-paste text (DM/email/post).
-- Keep everything concrete and persuasive.
+- Do NOT say "leverage social media", "offer services", "do market research", "build a brand"
+- Must name a specific niche, specific customer, and specific platform/place to sell
+- Include numbers: price, cost, qty, conversion assumptions, first-week target
+- "today_action" must be a 2-hour checklist with timestamps and copy-paste text
+- Keep everything concrete and persuasive
 
-Return strictly this JSON (no extra fields):
+Validation before answering:
+- Every idea names at least one exact platform (e.g., "Etsy", "Facebook Marketplace Canada", "Nextdoor Caledon", "Pinterest")
+- Description includes at least two numbers
+- "today_action" uses timestamps and includes at least one script
+
+Return strictly this JSON:
 {
-  "ideas":[
-    {
-      "name": "Specific business name",
+  "ideas": [{
+    "name": "Specific business name",
     "description": "3-4 sentences explaining what you create/sell, who buys it, where you sell it, include 2-3 specific numbers",
     "startup_cost": "$XX",
     "difficulty": "⭐ to ⭐⭐⭐⭐",
@@ -49,20 +49,14 @@ Return strictly this JSON (no extra fields):
     "timeline": "5-8 days to first sale",
     "today_action": "Basic 2-hour starter plan with timestamps, include one simple outreach message and one social post example - enough to get started but obviously needing more comprehensive templates and strategies for consistent success",
     "success_example": "Brief story with realistic first name, specific timeframe, realistic earnings"
-  }
-  ]
+  }]
 }
-Make this something you'd be comfortable telling your own family member to start, with enough detail to inspire confidence but clear need for deeper implementation guidance.
-`;
-Validation before answering:
-- Every idea names at least one exact platform (e.g., “Etsy”, “Facebook Marketplace Canada”, “Nextdoor Caledon”, “Pinterest”).
-- Description includes at least two numbers.
-- “today_action” uses timestamps and includes at least one script.
-`;
+
+Make this something you'd be comfortable telling your own family member to start, with enough detail to inspire confidence but clear need for deeper implementation guidance.`;
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return { statusCode: 500, body: "Missing OPENAI_API_KEY" };
-
+  
   const r = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
@@ -76,15 +70,16 @@ Validation before answering:
       ]
     })
   });
-
+  
   if (!r.ok) return { statusCode: 502, body: "AI error" };
-
+  
   const data = await r.json();
   let txt = data.choices?.[0]?.message?.content?.trim() || "{}";
+  
   if (txt.startsWith("```")) {
     txt = txt.replace(/^```json?\s*/i, "").replace(/```$/i, "");
   }
-
+  
   try {
     const parsed = JSON.parse(txt);
     return { statusCode: 200, headers: { "Content-Type": "application/json" }, body: JSON.stringify(parsed) };
@@ -92,5 +87,3 @@ Validation before answering:
     return { statusCode: 502, body: "Bad JSON from AI" };
   }
 };
-
-
