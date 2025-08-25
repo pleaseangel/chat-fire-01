@@ -4,8 +4,7 @@ exports.handler = async (event, context) => {
   }
   
   const { skills = "", time = "", budget = "", market = "" } = JSON.parse(event.body);
-  
-const prompt = `
+  const prompt = `
 Return valid JSON only. No commentary.
 Generate 5 startup ideas under $${budget} for ${skills} skills, ${time} available, ${market} market.
 
