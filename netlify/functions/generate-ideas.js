@@ -2,16 +2,16 @@ exports.handler = async (event, context) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method not allowed" };
   }
-  
+
   const { skills = "", time = "", budget = "", market = "" } = JSON.parse(event.body);
-  
+
   const prompt = `
 Return strictly valid JSON. No commentary.
 Generate 5 startup ideas under $${budget} for someone with ${skills} skills, ${time} available, targeting ${market} market.
 
 For each idea, create a detailed, compelling business plan with:
 - name (creative, specific business name)
-- description (compelling 3-4 sentences)  
+- description (compelling 3-4 sentences)
 - startup_cost (like "$47")
 - difficulty ("⭐" to "⭐⭐⭐⭐")
 - feasibility_score ("X.X/10")
@@ -44,17 +44,17 @@ Return: {"ideas":[ ... ]}.
   });
 
   if (!r.ok) return { statusCode: 502, body: "AI error" };
-  
+
   const data = await r.json();
   let txt = data.choices?.[0]?.message?.content?.trim() || "{}";
-  
-  // Remove markdown code blocks if present
+
+  // Remove markdown code blocks if present - THIS WAS THE CRITICAL FIX
   if (txt.startsWith('```json')) {
     txt = txt.replace(/```json\n?/g, '').replace(/\n?```$/g, '');
   }
-  
+
   console.log("OpenAI returned:", txt);
-  
+
   try {
     const parsed = JSON.parse(txt);
     return {
