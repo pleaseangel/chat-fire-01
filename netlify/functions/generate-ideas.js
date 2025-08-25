@@ -37,7 +37,7 @@ Return strictly this JSON (no extra fields):
       "feasibility_score": "X.X/10",
       "timeline": "5-8 days",
       "today_action": "00:00–00:20 …\\n00:20–01:10 …\\n01:10–02:00 …\\nDM script: “…”\\nPost caption: “…”",
-      "success_example": "Specific story with name, amount, timeframe."
+      "success_example": "Specific story with realistic first name (avoid Jane/John Doe), amount earned, timeframe."
     }
   ]
 }
