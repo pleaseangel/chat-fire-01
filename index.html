@@ -889,24 +889,36 @@ function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   
-  // Get the business data (assumes generatedIdeas is available)
-  const businessName = window.generatedIdeas?.[0]?.name || 'Your Business Plan';
-  const description = window.generatedIdeas?.[0]?.description || '';
-  const actionPlan = window.generatedIdeas?.[0]?.today_action || '';
+  // Get content from the exact DOM structure in your displayFreeSample function
+  const businessNameElement = document.querySelector('#sample-idea-card h3.text-2xl.font-bold.text-custom-purple');
+  const descriptionElement = document.querySelector('#sample-idea-card p.text-gray-700.mb-3');
+  const actionPlanElement = document.querySelector('#sample-idea-card pre.text-gray-700.whitespace-pre-wrap');
+  
+  // Extract text content, removing emoji and cleaning up
+  const businessName = businessNameElement?.textContent?.replace('💡 ', '').trim() || 'Your Business Plan';
+  const description = descriptionElement?.textContent?.trim() || 'Business description not available';
+  const actionPlan = actionPlanElement?.textContent?.trim() || 'Action plan not available';
   
   // Create PDF content
-  doc.setFontSize(16);
-  doc.text(`${businessName} - Implementation Guide`, 20, 20);
+  doc.setFontSize(18);
+  doc.text(`${businessName}`, 20, 20);
+  doc.setFontSize(14);
+  doc.text('Implementation Guide', 20, 35);
   
   doc.setFontSize(12);
-  doc.text('Business Description:', 20, 40);
-  doc.text(description, 20, 50, { maxWidth: 170 });
+  doc.text('Business Description:', 20, 55);
+  doc.text(description, 20, 65, { maxWidth: 170 });
   
-  doc.text('Today\'s Action Plan:', 20, 90);
-  doc.text(actionPlan, 20, 100, { maxWidth: 170 });
+  // Calculate position for action plan based on description length
+  const descriptionLines = Math.ceil(description.length / 85); // Rough estimate
+  const actionPlanY = 90 + (descriptionLines * 5);
   
-  // Download the PDF
-  doc.save(`${businessName.replace(/[^a-zA-Z0-9]/g, '-')}-Implementation-Guide.pdf`);
+  doc.text('Today\'s Action Plan:', 20, actionPlanY);
+  doc.text(actionPlan, 20, actionPlanY + 10, { maxWidth: 170 });
+  
+  // Clean filename
+  const filename = businessName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-') + '-Implementation-Guide';
+  doc.save(`${filename}.pdf`);
 }
 </script>
 </body>
