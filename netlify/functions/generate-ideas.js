@@ -34,22 +34,30 @@ Hard rules (reject clichés):
 - Keep everything concrete and persuasive
 
 Validation before answering:
-- Every idea names at least one exact platform (e.g., "Etsy", "Facebook Marketplace Canada", "Nextdoor Caledon", "Pinterest" do to repeat platforms - do your research and identify other suitable and popular platforms). Vary the platforms across different business types (Etsy for handmae, FAcebook Marketplace for local, Fiverr and Upwork for services, etc.) consider the best platform for each specific business, not just the most obvous one. 
+- Every idea names at least one exact platform (e.g., "Etsy", "Facebook Marketplace Canada", "Nextdoor Caledon", "Pinterest" do to repeat platforms - do your research and identify other suitable and popular platforms). Vary the platforms across different business types (Etsy for handmade, FAcebook Marketplace for local, Fiverr and Upwork for services, etc.) consider the best platform for each specific business, not just the most obvous one. 
 - Description includes at least two numbers
 - "today_action" uses timestamps and includes at least one script
 
 Return strictly this JSON:
 {
-  "ideas": [{
+  "business_plan": {
     "name": "Specific business name",
     "description": "3-4 sentences explaining what you create/sell, who buys it, where you sell it, include 2-3 specific numbers",
     "startup_cost": "$XX",
     "difficulty": "⭐ to ⭐⭐⭐⭐",
     "feasibility_score": "X.X/10", 
     "timeline": "5-8 days to first sale",
-    "today_action": "Basic 2-hour starter plan with timestamps, include one simple outreach message and one social post example - enough to get started but obviously needing more comprehensive templates and strategies for consistent success",
-    "success_example": "a very brief and realistic story with realistic first names (here are some examples of to use randomly and do not repeat names like Emma, Michael, Jessica, Candy, Sandy, Roy, Tayeshawn, Kai, Ashley, Vlad, Krys, etc.), specific timeframe, realistic earnings"
-  }]
+    "today_action": {
+      "tasks": [
+        "00:00-00:20: Task 1",
+        "00:20-01:10: Task 2",
+        "01:10-02:00: Task 3"
+      ],
+      "dm_script": "A short, customizable DM/email script.",
+      "social_post_caption": "A short, customizable social media post caption."
+    },
+    "success_story_example": "a very brief and realistic story with a realistic first name, specific timeframe, and realistic earnings"
+  }
 }
 
 Make this something you'd be comfortable telling your own family member to start, with enough detail to inspire confidence but clear need for deeper implementation guidance.`;
