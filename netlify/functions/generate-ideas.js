@@ -34,7 +34,7 @@ Hard rules (reject clichés):
 - Keep everything concrete and persuasive
 
 Validation before answering:
-- Every idea names at least one exact platform (e.g., "Etsy", "Facebook Marketplace Canada", "Nextdoor Caledon", "Pinterest"). Vary the platforms across different business types (Etsy for handmae, FAcebook Marketplace for local, Fiverr and Upwork for services, etc.) consider the best platform for each specific business, not just the most obvous one. 
+- Every idea names at least one exact platform (e.g., "Etsy", "Facebook Marketplace Canada", "Nextdoor Caledon", "Pinterest" do to repeat platforms - do your research and identify other suitable and popular platforms). Vary the platforms across different business types (Etsy for handmae, FAcebook Marketplace for local, Fiverr and Upwork for services, etc.) consider the best platform for each specific business, not just the most obvous one. 
 - Description includes at least two numbers
 - "today_action" uses timestamps and includes at least one script
 
