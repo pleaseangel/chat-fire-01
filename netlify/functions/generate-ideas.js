@@ -48,7 +48,7 @@ Return strictly this JSON:
     "feasibility_score": "X.X/10", 
     "timeline": "5-8 days to first sale",
     "today_action": "Basic 2-hour starter plan with timestamps, include one simple outreach message and one social post example - enough to get started but obviously needing more comprehensive templates and strategies for consistent success",
-    "success_example": "Brief story with realistic first name (use names like Emma, Michael, Jessica, Candy, Sandy, Roy, Tayeshawn, Kai, Ashley, Vlad, Krys, etc.), specific timeframe, realistic earnings"
+    "success_example": "Brief story with realistic first names (here are some examples of to use randomly and do not repeat names like Emma, Michael, Jessica, Candy, Sandy, Roy, Tayeshawn, Kai, Ashley, Vlad, Krys, etc.), specific timeframe, realistic earnings"
   }]
 }
 
