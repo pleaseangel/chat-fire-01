@@ -1,306 +1,296 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>$100 Startup Idea Generator - Turn Your Skills Into Money This Week</title> 
-    <meta name="description" content="Get personalized, actionable business plans that help 
-you earn your first $100 within days. No generic courses - just custom strategies for YOUR 
-skills."> 
-     
-    <!-- Tailwind CSS --> 
-    <script src="https://cdn.tailwindcss.com"></script> 
-     
-    <style> 
-        .gradient-bg {  
-            background: linear-gradient(135deg, #FFD2A0 0%, #EFB6C8 50%, #A888B5 100%);  
-            position: relative; 
-            overflow: hidden; 
-        } 
-        .gradient-bg::before { 
-            content: '✨'; 
-            position: absolute; 
-            animation: sparkle 3s infinite; 
-            font-size: 20px; 
-            color: #8174A0; 
-        } 
-        .gradient-bg::after { 
-            content: '💫'; 
-            position: absolute; 
-            right: 10%; 
-            top: 20%; 
-            animation: sparkle 4s infinite 1s; 
-            font-size: 16px; 
-            color: #8174A0; 
-        } 
-        .card-hover {  
-            transition: all 0.3s ease;  
-            background: linear-gradient(145deg, #FFD2A0, #EFB6C8); 
-        } 
-        .card-hover:hover {  
-            transform: translateY(-8px);  
-            box-shadow: 0 25px 50px rgba(168, 136, 181, 0.3); 
-            background: linear-gradient(145deg, #EFB6C8, #A888B5); 
-        } 
-
-        .sparkle { animation: sparkle 2s infinite; } 
-        @keyframes sparkle {  
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; } 
-            50% { transform: scale(1.2) rotate(180deg); opacity: 1; } 
-        } 
-        .blink { animation: blink 1.5s infinite; } 
-        @keyframes blink {  
-            0%, 50% { opacity: 1; } 
-            51%, 100% { opacity: 0.3; } 
-        } 
-        .float { animation: float 3s ease-in-out infinite; } 
-        @keyframes float { 
-            0%, 100% { transform: translateY(0px); } 
-            50% { transform: translateY(-10px); } 
-        } 
-        .typing {  
-            overflow: hidden;  
-            white-space: nowrap;  
-            animation: typing 3s steps(40, end); 
-            background: linear-gradient(45deg, #8174A0, #A888B5, #EFB6C8); 
-            background-clip: text; 
-            -webkit-background-clip: text; 
-            color: transparent; 
-        } 
-        @keyframes typing { from { width: 0; } to { width: 100%; } } 
-         
-        /* Custom color classes using your new palette */ 
-        .bg-custom-purple { background-color: #8174A0; } 
-        .bg-custom-lavender { background-color: #A888B5; } 
-        .bg-custom-pink { background-color: #EFB6C8; } 
-        .bg-custom-peach { background-color: #FFD2A0; } 
-         
-        .text-custom-purple { color: #8174A0; } 
-        .text-custom-lavender { color: #A888B5; } 
-        .text-custom-pink { color: #EFB6C8; } 
-        .text-custom-peach { color: #FFD2A0; } 
-         
-        .border-custom-purple { border-color: #8174A0; } 
-        .border-custom-lavender { border-color: #A888B5; } 
-        .border-custom-pink { border-color: #EFB6C8; } 
-        .border-custom-peach { border-color: #FFD2A0; } 
-         
-        .soft-glow {  
-            box-shadow: 0 8px 32px rgba(129, 116, 160, 0.2);  
-        } 
-        .lavender-glow {  
-            box-shadow: 0 8px 32px rgba(168, 136, 181, 0.2);  
-        } 
-        .pink-glow {  
-            box-shadow: 0 8px 32px rgba(239, 182, 200, 0.2);  
-        } 
-        .peach-glow {  
-            box-shadow: 0 8px 32px rgba(255, 210, 160, 0.2);  
-        } 
-         
-        .btn-pastel {  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$100 Startup Idea Generator - Turn Your Skills Into Money This Week</title>
+    <meta name="description" content="Get personalized, actionable business plans that help you earn your first $100 within days. No generic courses - just custom strategies for YOUR skills.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Single PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        .gradient-bg { 
             background: linear-gradient(135deg, #FFD2A0 0%, #EFB6C8 50%, #A888B5 100%); 
-            border: 2px solid rgba(129, 116, 160, 0.3); 
-            backdrop-filter: blur(10px); 
-            color: #4a5568; 
-        } 
-        .btn-pastel:hover { 
-            background: linear-gradient(135deg, #EFB6C8 0%, #A888B5 50%, #8174A0 100%); 
-            transform: translateY(-2px); 
-            box-shadow: 0 12px 40px rgba(168, 136, 181, 0.3); 
-        } 
-         
-        .skill-purple { background-color: rgba(129, 116, 160, 0.2); border-color: #8174A0; color: #8174A0; } 
-        .skill-lavender { background-color: rgba(168, 136, 181, 0.2); border-color: #A888B5; color: #8174A0; } 
-        .skill-pink { background-color: rgba(239, 182, 200, 0.2); border-color: #EFB6C8; color: #8174A0; } 
-        .skill-peach { background-color: rgba(255, 210, 160, 0.2); border-color: #FFD2A0; color: #8174A0; } 
-         
-        .skill-tag.selected { 
-            background-color: #8174A0 !important; 
-            color: white !important; 
-            border-color: #8174A0 !important; 
-        } 
-         
-        .time-option.selected, .market-option.selected { 
-            background-color: #A888B5 !important; 
-            border-color: #8174A0 !important; 
-            color: white !important; 
-        } 
-    </style> 
-</head> 
-<body style="background-color: #FFD2A0;"> 
-    <!-- Header --> 
-    <nav class="bg-white shadow-sm"> 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
-            <div class="flex justify-between items-center h-16"> 
-                <div class="text-2xl font-bold"> 
-                    <span class="sparkle">💖</span>  
-                    <span style="background: linear-gradient(45deg, #8174A0, #A888B5, #EFB6C8); 
-background-clip: text; -webkit-background-clip: text; color: transparent;">$100 Ideas</span> 
-                </div> 
-                <div id="auth-buttons" class="space-x-4"> 
-                    <button id="login-btn" class="text-custom-purple hover:opacity-80 font-medium">Login</button> 
-                    <button id="signup-btn" class="btn-pastel px-6 py-2 rounded-full hover:shadow-lg transition-all font-medium"> 
-                        Sign Up <span class="blink">✨</span> 
-                    </button> 
-                </div> 
-                <div id="user-menu" class="hidden"> 
-                    <span id="user-email" class="text-gray-600 mr-4"></span> 
-                    <button id="logout-btn" class="text-gray-600 hover:text-gray-900">Logout</button> 
-                </div> 
-            </div> 
-        </div> 
-    </nav> 
- 
-    <!-- Hero Section --> 
-    <section class="gradient-bg text-gray-800 py-20 relative"> 
-        <div class="absolute top-10 left-10 sparkle text-2xl">✨</div> 
-        <div class="absolute top-16 right-16 float text-xl">🌟</div> 
-        <div class="absolute bottom-20 left-20 blink text-lg">💫</div> 
-         
-        <div class="max-w-4xl mx-auto text-center px-4"> 
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-gray-800"> 
-                Turn Your Skills Into  
-                <span class="typing">$100 This Week</span> 
-            </h1> 
-            <p class="text-xl mb-8 text-gray-700"> 
-                Skip generic courses. Get personalized business plans tailored to YOUR skills, 
-budget, and schedule.  
-                <span class="sparkle">💕</span> 
-            </p> 
+            position: relative;
+            overflow: hidden;
+        }
+        .gradient-bg::before {
+            content: '✨';
+            position: absolute;
+            animation: sparkle 3s infinite;
+            font-size: 20px;
+            color: #8174A0;
+        }
+        .gradient-bg::after {
+            content: '💫';
+            position: absolute;
+            right: 10%;
+            top: 20%;
+            animation: sparkle 4s infinite 1s;
+            font-size: 16px;
+            color: #8174A0;
+        }
+        .card-hover { 
+            transition: all 0.3s ease; 
+            background: linear-gradient(145deg, #FFD2A0, #EFB6C8);
+        }
+        .card-hover:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 25px 50px rgba(168, 136, 181, 0.3);
+            background: linear-gradient(145deg, #EFB6C8, #A888B5);
+        }
+        .sparkle { animation: sparkle 2s infinite; }
+        @keyframes sparkle { 
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+        }
+        .blink { animation: blink 1.5s infinite; }
+        @keyframes blink { 
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .typing { 
+            overflow: hidden; 
+            white-space: nowrap; 
+            animation: typing 3s steps(40, end);
+            background: linear-gradient(45deg, #8174A0, #A888B5, #EFB6C8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        
+        /* Custom color classes */
+        .bg-custom-purple { background-color: #8174A0; }
+        .bg-custom-lavender { background-color: #A888B5; }
+        .bg-custom-pink { background-color: #EFB6C8; }
+        .bg-custom-peach { background-color: #FFD2A0; }
+        
+        .text-custom-purple { color: #8174A0; }
+        .text-custom-lavender { color: #A888B5; }
+        .text-custom-pink { color: #EFB6C8; }
+        .text-custom-peach { color: #FFD2A0; }
+        
+        .border-custom-purple { border-color: #8174A0; }
+        .border-custom-lavender { border-color: #A888B5; }
+        .border-custom-pink { border-color: #EFB6C8; }
+        .border-custom-peach { border-color: #FFD2A0; }
+        
+        .soft-glow { box-shadow: 0 8px 32px rgba(129, 116, 160, 0.2); }
+        .lavender-glow { box-shadow: 0 8px 32px rgba(168, 136, 181, 0.2); }
+        .pink-glow { box-shadow: 0 8px 32px rgba(239, 182, 200, 0.2); }
+        .peach-glow { box-shadow: 0 8px 32px rgba(255, 210, 160, 0.2); }
+        
+        .btn-pastel { 
+            background: linear-gradient(135deg, #FFD2A0 0%, #EFB6C8 50%, #A888B5 100%);
+            border: 2px solid rgba(129, 116, 160, 0.3);
+            backdrop-filter: blur(10px);
+            color: #4a5568;
+        }
+        .btn-pastel:hover {
+            background: linear-gradient(135deg, #EFB6C8 0%, #A888B5 50%, #8174A0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(168, 136, 181, 0.3);
+        }
+        
+        .skill-purple { background-color: rgba(129, 116, 160, 0.2); border-color: #8174A0; color: #8174A0; }
+        .skill-lavender { background-color: rgba(168, 136, 181, 0.2); border-color: #A888B5; color: #8174A0; }
+        .skill-pink { background-color: rgba(239, 182, 200, 0.2); border-color: #EFB6C8; color: #8174A0; }
+        .skill-peach { background-color: rgba(255, 210, 160, 0.2); border-color: #FFD2A0; color: #8174A0; }
+        
+        .skill-tag.selected {
+            background-color: #8174A0 !important;
+            color: white !important;
+            border-color: #8174A0 !important;
+        }
+        
+        .time-option.selected, .market-option.selected {
+            background-color: #A888B5 !important;
+            border-color: #8174A0 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body style="background-color: #FFD2A0;">
+    <!-- Header -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold">
+                    <span class="sparkle">💖</span> 
+                    <span style="background: linear-gradient(45deg, #8174A0, #A888B5, #EFB6C8); background-clip: text; -webkit-background-clip: text; color: transparent;">$100 Ideas</span>
+                </div>
+                <div id="auth-buttons" class="space-x-4">
+                    <button id="login-btn" class="text-custom-purple hover:opacity-80 font-medium">Login</button>
+                    <button id="signup-btn" class="btn-pastel px-6 py-2 rounded-full hover:shadow-lg transition-all font-medium">
+                        Sign Up <span class="blink">✨</span>
+                    </button>
+                </div>
+                <div id="user-menu" class="hidden">
+                    <span id="user-email" class="text-gray-600 mr-4"></span>
+                    <button id="logout-btn" class="text-gray-600 hover:text-gray-900">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-            <!-- Trust Signals --> 
-            <div class="flex justify-center items-center space-x-8 mb-8"> 
-                <div class="text-center bg-white rounded-2xl p-4 soft-glow"> 
-                    <div class="text-2xl font-bold text-custom-purple">847+ <span class="sparkle">✨</span></div> 
-                    <div class="text-sm text-gray-600">Success Stories</div> 
-                </div> 
-                <div class="text-center bg-custom-lavender rounded-2xl p-4 lavender-glow"> 
-                    <div class="text-2xl font-bold text-white">9 Days <span class="blink">💫</span></div> 
-                    <div class="text-sm text-white opacity-80">Avg. First $100</div> 
-                </div> 
-                <div class="text-center bg-custom-pink rounded-2xl p-4 pink-glow"> 
-                    <div class="text-2xl font-bold text-gray-800">4.8⭐ <span class="float">🌟</span></div> 
-                    <div class="text-sm text-gray-800 opacity-80">User Rating</div> 
-                </div> 
-            </div> 
-             
-            <button id="start-btn" class="btn-pastel px-8 py-4 rounded-full text-xl font-semibold 
-hover:shadow-xl transform hover:scale-105 transition-all"> 
-                Get My Custom Plan - Free Sample <span class="sparkle">✨</span> 
-            </button> 
-        </div> 
-    </section> 
- 
-    <!-- Main App Container --> 
-    <div class="max-w-4xl mx-auto px-4 py-12"> 
-         
-        <!-- Input Form --> 
-        <div id="input-section" class="bg-white rounded-3xl shadow-2xl p-8 mb-8 border-2 border-custom-lavender"> 
-            <h2 class="text-3xl font-bold text-center mb-8 text-custom-purple"> 
-                Tell Us About You <span class="sparkle">💖</span> 
-            </h2> 
-             
-            <form id="idea-form" class="space-y-8"> 
-                <!-- Step 1: Skills --> 
-                <div class="form-step"> 
-                    <label class="block text-lg font-semibold mb-4 text-custom-purple"> 
-                        What are you good at? <span class="blink">✨</span> 
-                    </label> 
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4"> 
-                        <button type="button" class="skill-tag skill-purple px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Writing">📝 Writing</button> 
-                        <button type="button" class="skill-tag skill-lavender px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Design">🎨 Design</button> 
-                        <button type="button" class="skill-tag skill-pink px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Social Media">📱 Social Media</button> 
-                        <button type="button" class="skill-tag skill-peach px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Cooking">󰞽 Cooking</button> 
-                        <button type="button" class="skill-tag skill-purple px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Teaching">󰠅 Teaching</button> 
-                        <button type="button" class="skill-tag skill-lavender px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Photography">📸 Photography</button> 
-                    </div> 
-                    <textarea id="skills-input" placeholder="Or describe your skills in your own words... ✨" class="w-full p-4 border-2 border-custom-pink rounded-2xl focus:ring-2 focus:ring-custom-purple focus:border-custom-purple bg-white backdrop-blur-sm text-gray-800" rows="3"></textarea> 
-                </div> 
- 
-                <!-- Step 2: Time --> 
-                <div class="form-step"> 
-                    <label class="block text-lg font-semibold mb-4 text-custom-purple">How much time can you invest this week?</label> 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4"> 
-                        <button type="button" class="time-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-time="2-5 hours"> 
-                            <div class="text-2xl mb-2">⏰</div> 
-                            <div class="font-semibold">2-5 hours</div> 
-                            <div class="text-sm text-gray-600">Perfect for side hustles</div> 
-                        </button> 
-                        <button type="button" class="time-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-time="5-10 hours"> 
-                            <div class="text-2xl mb-2">🚀</div> 
-                            <div class="font-semibold">5-10 hours</div> 
-                            <div class="text-sm text-gray-600">Serious about results</div> 
-                        </button> 
-                        <button type="button" class="time-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-time="10+ hours"> 
-                            <div class="text-2xl mb-2">💪</div> 
-                            <div class="font-semibold">10+ hours</div> 
-                            <div class="text-sm text-gray-600">All-in commitment</div> 
-                        </button> 
-                    </div> 
-                </div> 
- 
-                <!-- Step 3: Budget --> 
-                <div class="form-step"> 
-                    <label class="block text-lg font-semibold mb-4 text-custom-purple">What's your startup budget?</label> 
-                    <div class="relative mb-4"> 
-                        <input type="range" id="budget-slider" min="0" max="500" value="100" class="w-full h-2 bg-custom-peach rounded-lg appearance-none cursor-pointer"> 
-                        <div class="text-center mt-2"> 
-                            <span class="text-2xl font-bold text-custom-purple">$<span id="budget-display">100</span></span> 
-                            <div class="text-sm text-gray-600">Average successful starter: $67</div> 
-                        </div> 
-                    </div> 
-                </div> 
- 
-                <!-- Step 4: Market --> 
-                <div class="form-step"> 
-                    <label class="block text-lg font-semibold mb-4 text-custom-purple">Where do you want to make money?</label> 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4"> 
-                        <button type="button" class="market-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-market="online"> 
-                            <div class="text-3xl mb-2">🌐</div> 
-                            <div class="font-semibold">Online</div> 
-                            <div class="text-sm text-gray-600">Global reach</div> 
-                        </button> 
-                        <button type="button" class="market-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-market="local"> 
-                            <div class="text-3xl mb-2">🏠</div> 
-                            <div class="font-semibold">Local Community</div> 
-                            <div class="text-sm text-gray-600">Face-to-face business</div> 
-                        </button> 
-                        <button type="button" class="market-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-market="both"> 
-                            <div class="text-3xl mb-2">🔥</div> 
-                            <div class="font-semibold">Both</div> 
-                            <div class="text-sm text-gray-600">Maximum opportunities</div> 
-                        </button> 
-                    </div> 
-                </div> 
- 
-                <button type="submit" class="w-full bg-custom-purple text-white py-4 px-8 rounded-xl text-xl font-semibold hover:bg-custom-lavender transition-colors"> 
-                    Generate My Business Ideas 🚀 
-                </button> 
-            </form> 
-        </div> 
- 
-        <!-- Loading State --> 
-        <div id="loading-section" class="hidden text-center py-12"> 
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-custom-purple mb-4"></div> 
-            <h3 class="text-xl font-semibold mb-2 text-gray-800">Creating Your Custom Business Plans...</h3> 
-            <p class="text-gray-700">This takes about 20 seconds to personalize everything for you.</p> 
-        </div> 
- 
-        <!-- Results Section --> 
-        <div id="results-section" class="hidden"> 
-            <!-- Free Sample --> 
-            <div id="free-sample" class="bg-white rounded-2xl shadow-xl p-8 mb-8"> 
-                <div class="text-center mb-6"> 
-                    <h2 class="text-3xl font-bold mb-2 text-gray-800">Here's Your First Business Idea!</h2> 
-                    <div class="bg-custom-peach text-gray-800 px-4 py-2 rounded-full inline-block mb-4"> 
-                        ⏰ Your personalized ideas expire in <span id="countdown-timer" class="font-bold">23:59:45</span> 
-                    </div> 
-                </div> 
-                 
-                <div id="sample-idea-card" class="border border-custom-lavender rounded-xl p-6"></div> 
-                 
-                <div class="text-center mt-8"> 
+    <!-- Hero Section -->
+    <section class="gradient-bg text-gray-800 py-20 relative">
+        <div class="absolute top-10 left-10 sparkle text-2xl">✨</div>
+        <div class="absolute top-16 right-16 float text-xl">🌟</div>
+        <div class="absolute bottom-20 left-20 blink text-lg">💫</div>
+        
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-gray-800">
+                Turn Your Skills Into 
+                <span class="typing">$100 This Week</span>
+            </h1>
+            <p class="text-xl mb-8 text-gray-700">
+                Skip generic courses. Get personalized business plans tailored to YOUR skills, budget, and schedule. 
+                <span class="sparkle">💕</span>
+            </p>
+            
+            <!-- Trust Signals -->
+            <div class="flex justify-center items-center space-x-8 mb-8">
+                <div class="text-center bg-white rounded-2xl p-4 soft-glow">
+                    <div class="text-2xl font-bold text-custom-purple">847+ <span class="sparkle">✨</span></div>
+                    <div class="text-sm text-gray-600">Success Stories</div>
+                </div>
+                <div class="text-center bg-custom-lavender rounded-2xl p-4 lavender-glow">
+                    <div class="text-2xl font-bold text-white">9 Days <span class="blink">💫</span></div>
+                    <div class="text-sm text-white opacity-80">Avg. First $100</div>
+                </div>
+                <div class="text-center bg-custom-pink rounded-2xl p-4 pink-glow">
+                    <div class="text-2xl font-bold text-gray-800">4.8⭐ <span class="float">🌟</span></div>
+                    <div class="text-sm text-gray-800 opacity-80">User Rating</div>
+                </div>
+            </div>
+            
+            <button id="start-btn" class="btn-pastel px-8 py-4 rounded-full text-xl font-semibold hover:shadow-xl transform hover:scale-105 transition-all">
+                Get My Custom Plan - Free Sample <span class="sparkle">✨</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Main App Container -->
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        
+        <!-- Input Form -->
+        <div id="input-section" class="bg-white rounded-3xl shadow-2xl p-8 mb-8 border-2 border-custom-lavender">
+            <h2 class="text-3xl font-bold text-center mb-8 text-custom-purple">
+                Tell Us About You <span class="sparkle">💖</span>
+            </h2>
+            
+            <form id="idea-form" class="space-y-8">
+                <!-- Step 1: Skills -->
+                <div class="form-step">
+                    <label class="block text-lg font-semibold mb-4 text-custom-purple">
+                        What are you good at? <span class="blink">✨</span>
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                        <button type="button" class="skill-tag skill-purple px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Writing">📝 Writing</button>
+                        <button type="button" class="skill-tag skill-lavender px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Design">🎨 Design</button>
+                        <button type="button" class="skill-tag skill-pink px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Social Media">📱 Social Media</button>
+                        <button type="button" class="skill-tag skill-peach px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Cooking">👨‍🍳 Cooking</button>
+                        <button type="button" class="skill-tag skill-purple px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Teaching">👩‍🏫 Teaching</button>
+                        <button type="button" class="skill-tag skill-lavender px-4 py-3 rounded-full transition-all border-2 hover:shadow-lg" data-skill="Photography">📸 Photography</button>
+                    </div>
+                    <textarea id="skills-input" placeholder="Or describe your skills in your own words... ✨" class="w-full p-4 border-2 border-custom-pink rounded-2xl focus:ring-2 focus:ring-custom-purple focus:border-custom-purple bg-white backdrop-blur-sm text-gray-800" rows="3"></textarea>
+                </div>
+
+                <!-- Step 2: Time -->
+                <div class="form-step">
+                    <label class="block text-lg font-semibold mb-4 text-custom-purple">How much time can you invest this week?</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button type="button" class="time-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-time="2-5 hours">
+                            <div class="text-2xl mb-2">⏰</div>
+                            <div class="font-semibold">2-5 hours</div>
+                            <div class="text-sm text-gray-600">Perfect for side hustles</div>
+                        </button>
+                        <button type="button" class="time-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-time="5-10 hours">
+                            <div class="text-2xl mb-2">🚀</div>
+                            <div class="font-semibold">5-10 hours</div>
+                            <div class="text-sm text-gray-600">Serious about results</div>
+                        </button>
+                        <button type="button" class="time-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-time="10+ hours">
+                            <div class="text-2xl mb-2">💪</div>
+                            <div class="font-semibold">10+ hours</div>
+                            <div class="text-sm text-gray-600">All-in commitment</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Budget -->
+                <div class="form-step">
+                    <label class="block text-lg font-semibold mb-4 text-custom-purple">What's your startup budget?</label>
+                    <div class="relative mb-4">
+                        <input type="range" id="budget-slider" min="0" max="500" value="100" class="w-full h-2 bg-custom-peach rounded-lg appearance-none cursor-pointer">
+                        <div class="text-center mt-2">
+                            <span class="text-2xl font-bold text-custom-purple">$<span id="budget-display">100</span></span>
+                            <div class="text-sm text-gray-600">Average successful starter: $67</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Market -->
+                <div class="form-step">
+                    <label class="block text-lg font-semibold mb-4 text-custom-purple">Where do you want to make money?</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button type="button" class="market-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-market="online">
+                            <div class="text-3xl mb-2">🌐</div>
+                            <div class="font-semibold">Online</div>
+                            <div class="text-sm text-gray-600">Global reach</div>
+                        </button>
+                        <button type="button" class="market-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-market="local">
+                            <div class="text-3xl mb-2">🏠</div>
+                            <div class="font-semibold">Local Community</div>
+                            <div class="text-sm text-gray-600">Face-to-face business</div>
+                        </button>
+                        <button type="button" class="market-option border-2 border-custom-lavender hover:border-custom-purple p-6 rounded-lg text-center transition-colors bg-white text-gray-800" data-market="both">
+                            <div class="text-3xl mb-2">🔥</div>
+                            <div class="font-semibold">Both</div>
+                            <div class="text-sm text-gray-600">Maximum opportunities</div>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-custom-purple text-white py-4 px-8 rounded-xl text-xl font-semibold hover:bg-custom-lavender transition-colors">
+                    Generate My Business Ideas 🚀
+                </button>
+            </form>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-section" class="hidden text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-custom-purple mb-4"></div>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">Creating Your Custom Business Plans...</h3>
+            <p class="text-gray-700">This takes about 10 seconds to personalize everything for you.</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="hidden">
+            <!-- Free Sample -->
+            <div id="free-sample" class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold mb-2 text-gray-800">Here's Your First Business Idea!</h2>
+                    <div class="bg-custom-peach text-gray-800 px-4 py-2 rounded-full inline-block mb-4">
+                        ⏰ Your personalized ideas expire in <span id="countdown-timer" class="font-bold">23:59:45</span>
+                    </div>
+                </div>
+                
+                <div id="sample-idea-card" class="border border-custom-lavender rounded-xl p-6">
+                    <!-- Sample idea will be populated by JavaScript -->
+                </div>
+                
+                <div class="text-center mt-8">
                     <p class="text-lg mb-4 text-gray-800">Ready to turn this idea into your first $1000?
 <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
 Get the Complete Implementation System with:
@@ -312,590 +302,720 @@ Get the Complete Implementation System with:
 <li>Scaling roadmap: $100 → $1000+ blueprint</li>
 <li>Troubleshooting guide for common obstacles</li>
 </ul>
-</div></p> 
-                    <button id="upgrade-btn" class="bg-custom-purple text-white px-8 py-4 rounded-xl text-xl font-semibold hover:bg-custom-lavender transform hover:scale-105 transition-all"> 
-                        Get Your Complete Implementation System - $9 
-                    </button> 
-                </div> 
-            </div> 
- 
-            <!-- Premium Results --> 
-            <div id="premium-results" class="hidden"> 
-                <div class="text-center mb-8"> 
-                    <h2 class="text-3xl font-bold mb-4 text-gray-800">Your Personal Business Starter Kit</h2> 
-                    <p class="text-lg text-gray-700">5 custom business ideas tailored specifically for you</p> 
-                </div> 
-                 
-                <div id="ideas-container" class="space-y-6 mb-8"></div> 
-                 
-                <div class="bg-custom-peach rounded-2xl p-8 text-center"> 
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800">🎯 Your Success Toolkit</h3> 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6"> 
-                        <button id="download-pdf" class="bg-custom-purple text-white px-6 py-4 rounded-lg hover:bg-custom-lavender transition-colors" onclick="downloadPDF()"> 
-                            📄 Download PDF Guide 
-                        </button> 
-                        <button id="track-progress" class="bg-custom-lavender text-white px-6 py-4 rounded-lg hover:bg-custom-purple transition-colors"> 
-                            ✅ Track My Progress 
-                        </button> 
-                        <button id="share-results" class="bg-custom-pink text-gray-800 px-6 py-4 rounded-lg hover:bg-custom-lavender hover:text-white transition-colors"> 
-                            📱 Share Success 
-                        </button> 
-                    </div> 
-                </div> 
-            </div> 
-        </div> 
-    </div> 
- 
-    <!-- Success Stories Section --> 
-    <section class="bg-white py-16"> 
-        <div class="max-w-6xl mx-auto px-4"> 
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Recent Success Stories</h2> 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8"> 
-                <div class="bg-custom-peach rounded-xl p-6 shadow-lg"> 
-                    <div class="flex items-center mb-4"> 
-                        <div class="w-12 h-12 bg-custom-purple rounded-full flex items-center justify-center mr-4"> 
-                            <span class="text-white font-bold">$247</span> 
-                        </div> 
-                        <div> 
-                            <h4 class="font-semibold text-gray-800">Sarah M.</h4> 
-                            <p class="text-sm text-gray-600">Freelance Writing</p> 
-                        </div> 
-                    </div> 
-                    <p class="text-gray-700">"Made my first $100 in 5 days with the social media content idea. Now earning $200+ weekly!"</p> 
-                </div> 
-                 
-                <div class="bg-custom-pink rounded-xl p-6 shadow-lg"> 
-                    <div class="flex items-center mb-4"> 
-                        <div class="w-12 h-12 bg-custom-purple rounded-full flex items-center justify-center mr-4"> 
-                            <span class="text-white font-bold">$156</span> 
-                        </div> 
-                        <div> 
-                            <h4 class="font-semibold text-gray-800">Mike T.</h4> 
-                            <p class="text-sm text-gray-600">Local Services</p> 
-                        </div> 
-                    </div> 
-                    <p class="text-gray-700">"The dog walking business idea was perfect for my schedule. Hit $100 in 6 days!"</p> 
-                </div> 
-                 
-                <div class="bg-custom-lavender rounded-xl p-6 shadow-lg"> 
-                    <div class="flex items-center mb-4"> 
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4"> 
-                            <span class="text-custom-purple font-bold">$89</span> 
-                        </div> 
-                        <div> 
-                            <h4 class="font-semibold text-white">Lisa K.</h4> 
-                            <p class="text-sm text-white opacity-80">Online Tutoring</p> 
-                        </div> 
-                    </div> 
-                    <p class="text-white">"Started tutoring math online. Almost at $100 in my first week - this actually works!"</p> 
-                </div> 
-            </div> 
-        </div> 
-    </section> 
- 
-    <!-- Footer --> 
-    <footer class="bg-custom-purple text-white py-12"> 
-        <div class="max-w-4xl mx-auto text-center px-4"> 
-            <div class="text-2xl font-bold mb-4">💡 $100 Ideas</div> 
-            <p class="text-custom-peach mb-8">Turn your skills into money, one idea at a time.</p> 
-            <div class="flex justify-center space-x-8 text-sm text-custom-peach"> 
-                <a href="#" class="hover:text-white">Privacy Policy</a> 
-                <a href="#" class="hover:text-white">Terms of Service</a> 
-                <a href="#" class="hover:text-white">Contact</a> 
-            </div> 
-        </div> 
-    </footer> 
- 
-    <!-- Firebase v9 SDK --> 
-    <script type="module"> 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js"; 
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js"; 
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js"; 
- 
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDcywEKxrcQxVzSYhdpB_wIlBa41TUk-es", 
-            authDomain: "startup-idea-generator-79cad.firebaseapp.com", 
-            projectId: "startup-idea-generator-79cad", 
-            storageBucket: "startup-idea-generator-79cad.firebasestorage.app", 
-            messagingSenderId: "406435216498", 
-            appId: "1:406435216498:web:4eaa015a8f687d078f16eb", 
-            measurementId: "G-NND69T1916" 
-        }; 
- 
-        const app = initializeApp(firebaseConfig); 
-        const auth = getAuth(app); 
-        const db = getFirestore(app); 
-        window.firebase = { auth, db }; 
-    </script> 
- 
-    <script> 
-        // App Configuration & State 
-        const APP_CONFIG = { 
-            STRIPE_PK: "pk_live_51Qi2AwI0izf71u5auP4SMM1aLOzGNECHLrG98GARJ0vMI1kzQ6D91cOU8W0NRhL4oGG9NFhrGPJf37QrSajb72AD00aZoqbUdl" 
-        }; 
-         
-        // App State Variables 
-        let currentUser = null; 
-        let selectedSkills = []; 
-        let selectedTime = ''; 
-        let selectedBudget = 100; 
-        let selectedMarket = ''; 
-        let generatedIdeas = []; 
-        let countdownInterval = null; 
-        let paymentReady = false; 
- 
-        // DOM Elements 
-        const startBtn = document.getElementById('start-btn'); 
-        const inputSection = document.getElementById('input-section'); 
-        const loadingSection = document.getElementById('loading-section'); 
-        const resultsSection = document.getElementById('results-section'); 
-        const ideaForm = document.getElementById('idea-form'); 
-        const skillTags = document.querySelectorAll('.skill-tag'); 
-        const timeOptions = document.querySelectorAll('.time-option'); 
-        const marketOptions = document.querySelectorAll('.market-option'); 
-        const budgetSlider = document.getElementById('budget-slider'); 
-        const budgetDisplay = document.getElementById('budget-display'); 
-        const upgradeBtn = document.getElementById('upgrade-btn'); 
- 
-        // Initialize Payment System 
-        function initPayment() { 
-            const script = document.createElement('script'); 
-            script.src = 'https://js.stripe.com/v3/'; 
-            script.async = true; 
-            script.onload = () => { 
-                if (typeof Stripe !== 'undefined') { 
-                    try { 
-                        window.paymentProcessor = Stripe(APP_CONFIG.STRIPE_PK); 
-                        paymentReady = true; 
-                        console.log('✅ Payment system ready'); 
-                    } catch (error) { 
-                        console.log('Payment system unavailable - demo mode active'); 
-                    } 
-                } 
-            }; 
-            script.onerror = () => { 
-                console.log('Payment system unavailable - demo mode active'); 
-            }; 
-            document.head.appendChild(script); 
-        } 
- 
-        // Initialize App 
-        document.addEventListener('DOMContentLoaded', function() { 
-            initializeEventListeners(); 
-            checkAuthState(); 
-            checkForPaymentSuccess(); 
-            initPayment(); 
-        }); 
- 
-        // Event Listeners 
-        function initializeEventListeners() { 
-            startBtn.addEventListener('click', () => { inputSection.scrollIntoView({ behavior: 'smooth' }); }); 
-            ideaForm.addEventListener('submit', handleFormSubmit); 
-            skillTags.forEach(tag => { tag.addEventListener('click', (e) => { e.preventDefault(); toggleSkillSelection(tag); }); }); 
-            timeOptions.forEach(option => { option.addEventListener('click', (e) => { e.preventDefault(); selectTimeOption(option); }); }); 
-            marketOptions.forEach(option => { option.addEventListener('click', (e) => { e.preventDefault(); selectMarketOption(option); }); }); 
-            budgetSlider.addEventListener('input', (e) => { selectedBudget = e.target.value; budgetDisplay.textContent = selectedBudget; }); 
-            upgradeBtn.addEventListener('click', handleUpgrade); 
-            document.getElementById('login-btn').addEventListener('click', showLoginForm); 
-            document.getElementById('signup-btn').addEventListener('click', showSignupForm); 
-            document.getElementById('logout-btn').addEventListener('click', handleLogout); 
-        } 
- 
-        // Auth State Checker 
-        function checkAuthState() { 
-            if (window.firebase && window.firebase.auth) { 
-               onAuthStateChanged(window.firebase.auth, (user) => { 
-                    if (user) { 
-                        currentUser = user; 
-                        document.getElementById('auth-buttons').classList.add('hidden'); 
-                        document.getElementById('user-menu').classList.remove('hidden'); 
-                        document.getElementById('user-email').textContent = user.email; 
-                    } else { 
-                        currentUser = null; 
-                        document.getElementById('auth-buttons').classList.remove('hidden'); 
-                        document.getElementById('user-menu').classList.add('hidden'); 
-                    } 
-                }); 
-            } 
-        } 
- 
-        // Skill Selection 
-        function toggleSkillSelection(tag) { 
-            const skill = tag.dataset.skill; 
-            if (selectedSkills.includes(skill)) { 
-                selectedSkills = selectedSkills.filter(s => s !== skill); 
-                tag.classList.remove('selected'); 
-            } else { 
-                selectedSkills.push(skill); 
-                tag.classList.add('selected'); 
-            } 
-        } 
- 
-        // Time Selection 
-        function selectTimeOption(option) { 
-            timeOptions.forEach(opt => { opt.classList.remove('selected'); }); 
-            option.classList.add('selected'); 
-            selectedTime = option.dataset.time; 
-        } 
- 
-        // Market Selection 
-        function selectMarketOption(option) { 
-            marketOptions.forEach(opt => { opt.classList.remove('selected'); }); 
-            option.classList.add('selected'); 
-            selectedMarket = option.dataset.market; 
-        } 
- 
-        // Handle Upgrade (Payment) 
-        async function handleUpgrade() { 
-            if (paymentReady && window.paymentProcessor) { 
-                try { 
-                    const res = await fetch('/.netlify/functions/create-checkout', {  
-                        method: 'POST', 
-                        headers: { 'Content-Type': 'application/json' } 
-                    }); 
-                    if (res.ok) { 
-                        const { url } = await res.json(); 
-                        if (url) { window.location.href = url; return; } 
-                    } 
-                } catch (error) { 
-                    console.log('Payment unavailable, showing demo'); 
-                } 
-            } 
-            console.log('💳 Demo mode - showing all results'); 
-            showPremiumResults(); 
-        } 
- 
-        // Show Premium Results (original, will be safely overridden below)
-        function showPremiumResults() { 
-            document.getElementById('free-sample').classList.add('hidden'); 
-            document.getElementById('premium-results').classList.remove('hidden'); 
-            displayAllIdeas(); 
-        } 
-        // Payment Success Detection (original, will be safely overridden below)
-        function checkForPaymentSuccess() { 
-            const urlParams = new URLSearchParams(window.location.search); 
-            if (urlParams.get('success') === 'true') { 
-                showPremiumResults(); 
-                window.history.replaceState({}, document.title, window.location.pathname); 
-                console.log('Payment successful - showing premium content'); 
-            } 
-        } 
-
-        // Auth Functions 
-        function showLoginForm() { 
-            const email = prompt('Enter your email:'); 
-            const password = prompt('Enter your password:'); 
-            if (email && password && window.firebase && window.firebase.auth) { 
-                window.firebase.auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => { console.log('User logged in:', userCredential.user); alert('Login successful!'); })
-                    .catch((error) => { alert('Login failed: ' + error.message); }); 
-            } else { alert('Please enter both email and password.'); } 
-        } 
- 
-        function showSignupForm() { 
-            const email = prompt('Enter your email:'); 
-            const password = prompt('Create a password (min 6 characters):'); 
-            if (email && password && window.firebase && window.firebase.auth) { 
-                if (password.length < 6) { alert('Password must be at least 6 characters long.'); return; } 
-                window.firebase.auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => { console.log('User created:', userCredential.user); alert('Account created successfully!'); })
-                    .catch((error) => { alert('Signup failed: ' + error.message); }); 
-            } else { alert('Please enter both email and password.'); } 
-        } 
- 
-        function handleLogout() { 
-            if (window.firebase && window.firebase.auth) { 
-                window.firebase.auth.signOut().then(() => { console.log('User signed out'); })
-                .catch((error) => { console.error('Logout error:', error); }); 
-            } 
-        } 
- 
-        // Form Submission 
-        async function handleFormSubmit(e) { 
-            e.preventDefault(); 
-            if (!validateForm()) return; 
-            inputSection.classList.add('hidden'); 
-            loadingSection.classList.remove('hidden'); 
-            try { 
-                await generateIdeas(); 
-                loadingSection.classList.add('hidden'); 
-                resultsSection.classList.remove('hidden'); 
-                resultsSection.scrollIntoView({ behavior: 'smooth' }); 
-                startCountdownTimer(); 
-            } catch (error) { 
-                console.error('Error generating ideas:', error); 
-                alert('Sorry, there was an error generating your ideas. Please try again.'); 
-                loadingSection.classList.add('hidden'); 
-                inputSection.classList.remove('hidden'); 
-            } 
-        } 
- 
-        // Form Validation 
-        function validateForm() { 
-            const skillsInput = document.getElementById('skills-input').value; 
-            if (selectedSkills.length === 0 && !skillsInput.trim()) { alert('Please select your skills or describe them in the text area.'); return false; } 
-            if (!selectedTime) { alert('Please select how much time you can invest.'); return false; } 
-            if (!selectedMarket) { alert('Please select where you want to make money.'); return false; } 
-            return true; 
-        } 
- 
-        // Generate Ideas 
-        async function generateIdeas() { 
-            const skillsInput = document.getElementById('skills-input').value; 
-            const skills = selectedSkills.length ? selectedSkills.join(', ') : skillsInput; 
-            try { 
-                const res = await fetch('/.netlify/functions/generate-ideas', { 
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, 
-                    body: JSON.stringify({ skills, time: selectedTime, budget: selectedBudget, market: selectedMarket }) 
-                }); 
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`); 
-                const data = await res.json(); 
-                generatedIdeas = data.ideas || []; 
-                if (generatedIdeas.length > 0) { displayFreeSample(generatedIdeas[0]); } 
-                else { throw new Error('No ideas generated'); } 
-            } catch (error) { 
-                console.error('AI generation failed:', error); 
-                generatedIdeas = [ 
-                    { 
-                        name: `${skills.includes('Writing') || skills.toLowerCase().includes('writing') ? 'Content Writing Service' : 'Freelance Service'}`, 
-                        description: `Use your ${skills} skills to offer services ${selectedMarket === 'online' ? 'online' : selectedMarket === 'local' ? 'in your local area' : 'both online and locally'}. Perfect for your ${selectedTime} schedule.`, 
-                        startup_cost: `${Math.min(selectedBudget, 50)}`, 
-                        difficulty: selectedTime === '2-5 hours' ? '⭐⭐' : selectedTime === '5-10 hours' ? '⭐⭐⭐' : '⭐⭐⭐⭐', 
-                        feasibility_score: "8.5/10", 
-                        timeline: selectedTime === '10+ hours' ? "3-5 days" : "5-7 days", 
-                        today_action: `Create 3 sample ${skills.toLowerCase()} pieces and reach out to 5 potential clients ${selectedMarket === 'online' ? 'through social media' : 'in your area'}.`, 
-                        success_example: "Previous clients have seen success with this approach in their first week." 
-                    } 
-                ]; 
-                displayFreeSample(generatedIdeas[0]); 
-            } 
-        } 
- 
-        // Display Free Sample 
-        function displayFreeSample(idea) { 
-            const sampleCard = document.getElementById('sample-idea-card'); 
-            sampleCard.innerHTML = ` 
-                <div class="flex justify-between items-start mb-4"> 
-                    <div> 
-                        <h3 class="text-2xl font-bold text-custom-purple mb-2">💡 ${idea.name}</h3> 
-                        <p class="text-gray-700 mb-3">${idea.description}</p> 
-                    </div> 
-                    <div class="text-right"> 
-                        <div class="text-lg font-semibold text-custom-purple">${idea.startup_cost}</div> 
-                        <div class="text-sm text-gray-500">startup cost</div> 
-                    </div> 
-                </div> 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4"> 
-                    <div class="text-center"><div class="text-lg font-semibold">📊 ${idea.difficulty}</div><div class="text-xs text-gray-500">Difficulty</div></div> 
-                    <div class="text-center"><div class="text-lg font-semibold text-custom-purple">🎯 ${idea.feasibility_score}</div><div class="text-xs text-gray-500">Feasibility</div></div> 
-                    <div class="text-center"><div class="text-lg font-semibold text-custom-lavender">⏱ ${idea.timeline}</div><div class="text-xs text-gray-500">First $100</div></div> 
-                    <div class="text-center"><div class="text-lg font-semibold text-custom-pink">🚀 Today</div><div class="text-xs text-gray-500">Action Step</div></div> 
-                </div> 
-                <div class="bg-custom-peach border border-custom-pink rounded-lg p-4 mb-4"> 
-                    <h4 class="font-semibold text-gray-800 mb-2">🎯 Your First Step Today:</h4> 
-                    <pre class="text-gray-700 whitespace-pre-wrap font-sans text-sm">${idea.today_action}</pre> 
-                </div> 
-                <div class="text-center"><p class="text-sm text-gray-600 italic">"${idea.success_example}"</p></div> 
-            `; 
-        } 
- 
-        // Display All Ideas (for premium) 
-        function displayAllIdeas() { 
-            const container = document.getElementById('ideas-container'); 
-            container.innerHTML = ''; 
-            generatedIdeas.forEach((idea) => { 
-                const ideaCard = document.createElement('div'); 
-                ideaCard.className = 'bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender'; 
-                ideaCard.innerHTML = ` 
-                    <h3 class="text-xl font-bold text-custom-purple mb-3">💼 ${idea.name}</h3> 
-                    <p class="text-gray-700 mb-4">${idea.description}</p> 
-                    <div class="grid grid-cols-2 gap-4 text-sm mb-4"> 
-                        <div><strong>Cost:</strong> ${idea.startup_cost}</div> 
-                        <div><strong>Timeline:</strong> ${idea.timeline}</div> 
-                        <div><strong>Difficulty:</strong> ${idea.difficulty}</div> 
-                        <div><strong>Success Rate:</strong> ${idea.feasibility_score}</div> 
-                    </div> 
-                    <div class="bg-gray-50 rounded-lg p-3"> 
-                        <h4 class="font-semibold mb-2">Today's Action Plan:</h4> 
-                        <pre class="text-sm text-gray-700 whitespace-pre-wrap font-sans">${idea.today_action}</pre> 
-                    </div> 
-                `; 
-                container.appendChild(ideaCard); 
-            }); 
-        } 
- 
-        // Countdown Timer 
-        function startCountdownTimer() { 
-            let timeLeft = 24 * 60 * 60 - 15; 
-            countdownInterval = setInterval(() => { 
-                const hours = Math.floor(timeLeft / 3600); 
-                const minutes = Math.floor((timeLeft % 3600) / 60); 
-                const seconds = timeLeft % 60; 
-                const timerElement = document.getElementById('countdown-timer'); 
-                if (timerElement) { 
-                    timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`; 
-                } 
-                if (timeLeft <= 0) { clearInterval(countdownInterval); } 
-                timeLeft--; 
-            }, 1000); 
-        } 
-    </script> 
-
-    <!-- jsPDF (kept for compatibility if needed elsewhere) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- html2pdf for robust multi-page PDF from HTML -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <!-- Comprehensive plan helpers + safe overrides -->
-    <script>
-    function getPlanInputs() {
-      const skillsInput = document.getElementById('skills-input')?.value || '';
-      const skills = (window.selectedSkills && selectedSkills.length) ? selectedSkills.join(', ') : skillsInput;
-      const firstIdea = (window.generatedIdeas && generatedIdeas[0]) || {};
-      const description = firstIdea.description || 'Comprehensive implementation guide';
-      return {
-        businessName: firstIdea.name || 'Business Plan',
-        skills,
-        time: window.selectedTime || '',
-        budget: window.selectedBudget || '',
-        market: window.selectedMarket || '',
-        description
-      };
-    }
-
-    async function generateFullPlan() {
-      const payload = getPlanInputs();
-      const cacheKey = 'fullPlan:'+btoa(JSON.stringify(payload));
-      const cached = localStorage.getItem(cacheKey);
-      if (cached) { window.fullPlan = JSON.parse(cached); return window.fullPlan; }
-
-      const res = await fetch('/.netlify/functions/generate-full-plan', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error('Full-plan API error');
-      const data = await res.json();
-      if (!data?.sections) throw new Error('Missing sections');
-      window.fullPlan = data.sections;
-      localStorage.setItem(cacheKey, JSON.stringify(window.fullPlan));
-      return window.fullPlan;
-    }
-
-    function renderFullPlan(sections) {
-      const container = document.getElementById('ideas-container');
-      if (!container) return;
-      const order = [
-        ['business_analysis','Business Analysis'],
-        ['launch_calendar','30-Day Launch Calendar'],
-        ['email_templates','Email Templates Library'],
-        ['social_media','Social Media Content Pack'],
-        ['pricing_strategy','Pricing Strategy Guide'],
-        ['customer_acquisition','Customer Acquisition System'],
-        ['scaling_roadmap','Scaling Roadmap'],
-        ['troubleshooting','Troubleshooting Guide'],
-        ['resource_directory','Resource Directory'],
-        ['success_metrics','Success Metrics']
-      ];
-      order.forEach(([key, label]) => {
-        const block = document.createElement('div');
-        block.className = 'bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender mt-6';
-        const content = sections[key] || 'No data provided.';
-        block.innerHTML = `
-          <h3 class="text-xl font-bold text-custom-purple mb-3">${label}</h3>
-          <pre class="whitespace-pre-wrap text-sm text-gray-800 font-sans">${content}</pre>
-        `;
-        container.appendChild(block);
-      });
-    }
-
-    // Override to fetch and render full plan after payment or demo
-    async function showPremiumResults() {
-      document.getElementById('free-sample').classList.add('hidden');
-      document.getElementById('premium-results').classList.remove('hidden');
-      displayAllIdeas();
-      const btn = document.getElementById('download-pdf');
-      if (btn) btn.disabled = true;
-      try {
-        const sections = await generateFullPlan();
-        renderFullPlan(sections);
-      } catch (e) {
-        const container = document.getElementById('ideas-container');
-        const warn = document.createElement('div');
-        warn.className = 'bg-yellow-50 border border-yellow-300 text-yellow-800 rounded p-4 mt-4';
-        warn.textContent = 'Could not load the comprehensive guide. Click to retry.';
-        warn.onclick = async () => { warn.textContent='Retrying…'; const s=await generateFullPlan(); renderFullPlan(s); warn.remove(); };
-        container?.prepend(warn);
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    }
-
-    function checkForPaymentSuccess() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('success') === 'true') {
-        showPremiumResults();
-        window.history.replaceState({}, document.title, window.location.pathname);
-        console.log('Payment successful - showing premium content');
-      }
-    }
-    </script>
-
-    <!-- Replace PDF generator with html2pdf-based implementation -->
-    <script>
-    function buildPdfHTML(sections){
-      const blocks = [
-        ['Business Analysis', sections.business_analysis],
-        ['30-Day Launch Calendar', sections.launch_calendar],
-        ['Email Templates Library', sections.email_templates],
-        ['Social Media Content Pack', sections.social_media],
-        ['Pricing Strategy Guide', sections.pricing_strategy],
-        ['Customer Acquisition System', sections.customer_acquisition],
-        ['Scaling Roadmap', sections.scaling_roadmap],
-        ['Troubleshooting Guide', sections.troubleshooting],
-        ['Resource Directory', sections.resource_directory],
-        ['Success Metrics', sections.success_metrics],
-      ];
-      const title = ((window.generatedIdeas && generatedIdeas[0]?.name) || 'Business Plan') + ' — Comprehensive Implementation Guide';
-      return `
-        <section style="font-family: Arial, sans-serif; padding:24px; max-width:800px;">
-          <h1 style="font-size:22pt; margin:60px 0 20px;">${title}</h1>
-          <h2 style="font-size:16pt; margin:30px 0 10px;">Table of Contents</h2>
-          <ol>${blocks.map(([h],i)=>`<li>${i+1}. ${h}</li>`).join('')}</ol>
-          ${blocks.map(([h,txt])=>`
-            <div style="page-break-before:always;">
-              <h2 style="font-size:16pt; margin:24px 0 10px;">${h}</h2>
-              <pre style="white-space:pre-wrap; font-size:11pt; line-height:1.4;">${(txt||'No data provided.')}</pre>
+</div></p>
+                    <button id="upgrade-btn" class="bg-custom-purple text-white px-8 py-4 rounded-xl text-xl font-semibold hover:bg-custom-lavender transform hover:scale-105 transition-all">
+                        Get Your Complete Implementation System - $9
+                    </button>
+                </div>
             </div>
-          `).join('')}
-        </section>`;
-    }
 
-    async function downloadPDF() {
-      const btn = document.getElementById('download-pdf');
-      if (btn) btn.disabled = true;
-      try{
-        const sections = window.fullPlan || await generateFullPlan();
-        const src = document.getElementById('pdf-source');
-        src.innerHTML = buildPdfHTML(sections);
-        const fname = (((window.generatedIdeas && generatedIdeas[0]?.name) || 'Business-Plan').replace(/[^a-z0-9]+/gi,'-')) + '-Comprehensive-Implementation-Guide.pdf';
-        await html2pdf().set({
-          margin: [10,10,10,10],
-          filename: fname,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['css', 'legacy'] }
-        }).from(src).save();
-      } catch(e){
-        alert('PDF failed. Try again.');
-        console.error(e);
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    }
+            <!-- Premium Results -->
+            <div id="premium-results" class="hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800">Your Complete Implementation Guide</h2>
+                    <p class="text-lg text-gray-700">Everything you need to turn your idea into $1000+</p>
+                </div>
+                
+                <div id="ideas-container" class="space-y-6 mb-8">
+                    <!-- Implementation guide will be populated by JavaScript -->
+                </div>
+                
+                <div class="bg-custom-peach rounded-2xl p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">🎯 Your Success Toolkit</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <button id="download-pdf" class="bg-custom-purple text-white px-6 py-4 rounded-lg hover:bg-custom-lavender transition-colors" onclick="downloadPDF()">
+                            📄 Download Complete Guide
+                        </button>
+                        <button id="track-progress" class="bg-custom-lavender text-white px-6 py-4 rounded-lg hover:bg-custom-purple transition-colors">
+                            ✅ Track My Progress
+                        </button>
+                        <button id="share-results" class="bg-custom-pink text-gray-800 px-6 py-4 rounded-lg hover:bg-custom-lavender hover:text-white transition-colors">
+                            📱 Share Success
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Stories Section -->
+    <section class="bg-white py-16">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Recent Success Stories</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-custom-peach rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-custom-purple rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">$247</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Sarah M.</h4>
+                            <p class="text-sm text-gray-600">Freelance Writing</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"Made my first $100 in 5 days with the social media content idea. Now earning $200+ weekly!"</p>
+                </div>
+                
+                <div class="bg-custom-pink rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-custom-purple rounded-full flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">$156</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">Mike T.</h4>
+                            <p class="text-sm text-gray-600">Local Services</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"The dog walking business idea was perfect for my schedule. Hit $100 in 6 days!"</p>
+                </div>
+                
+                <div class="bg-custom-lavender rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4">
+                            <span class="text-custom-purple font-bold">$89</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Lisa K.</h4>
+                            <p class="text-sm text-white opacity-80">Online Tutoring</p>
+                        </div>
+                    </div>
+                    <p class="text-white">"Started tutoring math online. Almost at $100 in my first week - this actually works!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-custom-purple text-white py-12">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <div class="text-2xl font-bold mb-4">💡 $100 Ideas</div>
+            <p class="text-custom-peach mb-8">Turn your skills into money, one idea at a time.</p>
+            <div class="flex justify-center space-x-8 text-sm text-custom-peach">
+                <a href="#" class="hover:text-white">Privacy Policy</a>
+                <a href="#" class="hover:text-white">Terms of Service</a>
+                <a href="#" class="hover:text-white">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase v9 SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDcywEKxrcQxVzSYhdpB_wIlBa41TUk-es",
+            authDomain: "startup-idea-generator-79cad.firebaseapp.com",
+            projectId: "startup-idea-generator-79cad",
+            storageBucket: "startup-idea-generator-79cad.firebasestorage.app",
+            messagingSenderId: "406435216498",
+            appId: "1:406435216498:web:4eaa015a8f687d078f16eb",
+            measurementId: "G-NND69T1916"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        window.firebase = { auth, db };
     </script>
 
-    <!-- Hidden container used to render the PDF HTML -->
-    <div id="pdf-source" class="hidden"></div>
-</body> 
+    <script>
+        // App Configuration & State
+        const APP_CONFIG = {
+            STRIPE_PK: "pk_live_51Qi2AwI0izf71u5auP4SMM1aLOzGNECHLrG98GARJ0vMI1kzQ6D91cOU8W0NRhL4oGG9NFhrGPJf37QrSajb72AD00aZoqbUdl"
+        };
+        
+        // App State Variables
+        let currentUser = null;
+        let selectedSkills = [];
+        let selectedTime = '';
+        let selectedBudget = 100;
+        let selectedMarket = '';
+        let generatedIdeas = [];
+        let countdownInterval = null;
+        let paymentReady = false;
+
+        // DOM Elements
+        const startBtn = document.getElementById('start-btn');
+        const inputSection = document.getElementById('input-section');
+        const loadingSection = document.getElementById('loading-section');
+        const resultsSection = document.getElementById('results-section');
+        const ideaForm = document.getElementById('idea-form');
+        const skillTags = document.querySelectorAll('.skill-tag');
+        const timeOptions = document.querySelectorAll('.time-option');
+        const marketOptions = document.querySelectorAll('.market-option');
+        const budgetSlider = document.getElementById('budget-slider');
+        const budgetDisplay = document.getElementById('budget-display');
+        const upgradeBtn = document.getElementById('upgrade-btn');
+
+        // Initialize Payment System
+        function initPayment() {
+            const script = document.createElement('script');
+            script.src = 'https://js.stripe.com/v3/';
+            script.async = true;
+            script.onload = () => {
+                if (typeof Stripe !== 'undefined') {
+                    try {
+                        window.paymentProcessor = Stripe(APP_CONFIG.STRIPE_PK);
+                        paymentReady = true;
+                        console.log('✅ Payment system ready');
+                    } catch (error) {
+                        console.log('Payment system unavailable - demo mode active');
+                    }
+                }
+            };
+            script.onerror = () => {
+                console.log('Payment system unavailable - demo mode active');
+            };
+            document.head.appendChild(script);
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            checkAuthState();
+            checkForPaymentSuccess();
+            initPayment();
+        });
+
+        // Event Listeners
+        function initializeEventListeners() {
+            startBtn.addEventListener('click', () => {
+                inputSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            ideaForm.addEventListener('submit', handleFormSubmit);
+            skillTags.forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleSkillSelection(tag);
+                });
+            });
+            timeOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectTimeOption(option);
+                });
+            });
+            marketOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectMarketOption(option);
+                });
+            });
+            budgetSlider.addEventListener('input', (e) => {
+                selectedBudget = e.target.value;
+                budgetDisplay.textContent = selectedBudget;
+            });
+            upgradeBtn.addEventListener('click', handleUpgrade);
+            document.getElementById('login-btn').addEventListener('click', showLoginForm);
+            document.getElementById('signup-btn').addEventListener('click', showSignupForm);
+            document.getElementById('logout-btn').addEventListener('click', handleLogout);
+        }
+
+        // Auth State Checker
+        function checkAuthState() {
+            if (window.firebase && window.firebase.auth) {
+               onAuthStateChanged(window.firebase.auth, (user) => {
+                    if (user) {
+                        currentUser = user;
+                        document.getElementById('auth-buttons').classList.add('hidden');
+                        document.getElementById('user-menu').classList.remove('hidden');
+                        document.getElementById('user-email').textContent = user.email;
+                    } else {
+                        currentUser = null;
+                        document.getElementById('auth-buttons').classList.remove('hidden');
+                        document.getElementById('user-menu').classList.add('hidden');
+                    }
+                });
+            }
+        }
+
+        // Skill Selection
+        function toggleSkillSelection(tag) {
+            const skill = tag.dataset.skill;
+            if (selectedSkills.includes(skill)) {
+                selectedSkills = selectedSkills.filter(s => s !== skill);
+                tag.classList.remove('selected');
+            } else {
+                selectedSkills.push(skill);
+                tag.classList.add('selected');
+            }
+        }
+
+        // Time Selection
+        function selectTimeOption(option) {
+            timeOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            option.classList.add('selected');
+            selectedTime = option.dataset.time;
+        }
+
+        // Market Selection
+        function selectMarketOption(option) {
+            marketOptions.forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            option.classList.add('selected');
+            selectedMarket = option.dataset.market;
+        }
+
+        // Handle Upgrade (Payment)
+        async function handleUpgrade() {
+            if (paymentReady && window.paymentProcessor) {
+                try {
+                    const res = await fetch('/.netlify/functions/create-checkout', { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    
+                    if (res.ok) {
+                        const { url } = await res.json();
+                        if (url) {
+                            window.location.href = url;
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.log('Payment unavailable, showing demo');
+                }
+            }
+            
+            // Demo mode - show premium results
+            console.log('💳 Demo mode - showing all results');
+            showPremiumResults();
+        }
+
+        // Show Premium Results - Clean implementation
+        function showPremiumResults() {
+            document.getElementById('free-sample').classList.add('hidden');
+            document.getElementById('premium-results').classList.remove('hidden');
+            displayImplementationGuide();
+        }
+
+        // Payment Success Detection
+        function checkForPaymentSuccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                showPremiumResults();
+                window.history.replaceState({}, document.title, window.location.pathname);
+                console.log('Payment successful - showing premium content');
+            }
+        }
+
+        // Auth Functions
+        function showLoginForm() {
+            const email = prompt('Enter your email:');
+            const password = prompt('Enter your password:');
+            
+            if (email && password && window.firebase && window.firebase.auth) {
+                window.firebase.auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        console.log('User logged in:', userCredential.user);
+                        alert('Login successful!');
+                    })
+                    .catch((error) => {
+                        alert('Login failed: ' + error.message);
+                    });
+            } else {
+                alert('Please enter both email and password.');
+            }
+        }
+
+        function showSignupForm() {
+            const email = prompt('Enter your email:');
+            const password = prompt('Create a password (min 6 characters):');
+            
+            if (email && password && window.firebase && window.firebase.auth) {
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters long.');
+                    return;
+                }
+                window.firebase.auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        console.log('User created:', userCredential.user);
+                        alert('Account created successfully!');
+                    })
+                    .catch((error) => {
+                        alert('Signup failed: ' + error.message);
+                    });
+            } else {
+                alert('Please enter both email and password.');
+            }
+        }
+
+        function handleLogout() {
+            if (window.firebase && window.firebase.auth) {
+                window.firebase.auth.signOut().then(() => {
+                    console.log('User signed out');
+                }).catch((error) => {
+                    console.error('Logout error:', error);
+                });
+            }
+        }
+
+        // Form Submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) return;
+
+            inputSection.classList.add('hidden');
+            loadingSection.classList.remove('hidden');
+
+            try {
+                await generateIdeas();
+                
+                loadingSection.classList.add('hidden');
+                resultsSection.classList.remove('hidden');
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+                
+                startCountdownTimer();
+                
+            } catch (error) {
+                console.error('Error generating ideas:', error);
+                alert('Sorry, there was an error generating your ideas. Please try again.');
+                loadingSection.classList.add('hidden');
+                inputSection.classList.remove('hidden');
+            }
+        }
+
+        // Form Validation
+        function validateForm() {
+            const skillsInput = document.getElementById('skills-input').value;
+            
+            if (selectedSkills.length === 0 && !skillsInput.trim()) {
+                alert('Please select your skills or describe them in the text area.');
+                return false;
+            }
+            
+            if (!selectedTime) {
+                alert('Please select how much time you can invest.');
+                return false;
+            }
+            
+            if (!selectedMarket) {
+                alert('Please select where you want to make money.');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Generate Ideas
+        async function generateIdeas() {
+            const skillsInput = document.getElementById('skills-input').value;
+            const skills = selectedSkills.length ? selectedSkills.join(', ') : skillsInput;
+            
+            try {
+                const res = await fetch('/.netlify/functions/generate-ideas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        skills: skills,
+                        time: selectedTime,
+                        budget: selectedBudget,
+                        market: selectedMarket
+                    })
+                });
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                
+                const data = await res.json();
+                generatedIdeas = data.ideas || [];
+                
+                if (generatedIdeas.length > 0) {
+                    displayFreeSample(generatedIdeas[0]);
+                } else {
+                    throw new Error('No ideas generated');
+                }
+                
+            } catch (error) {
+                console.error('AI generation failed:', error);
+                
+                // Fallback to basic template if AI fails
+                generatedIdeas = [
+                    {
+                        name: `${skills.includes('Writing') || skills.toLowerCase().includes('writing') ? 'Content Writing Service' : 'Freelance Service'}`,
+                        description: `Use your ${skills} skills to offer services ${selectedMarket === 'online' ? 'online' : selectedMarket === 'local' ? 'in your local area' : 'both online and locally'}. Perfect for your ${selectedTime} schedule.`,
+                        startup_cost: `$${Math.min(selectedBudget, 50)}`,
+                        difficulty: selectedTime === '2-5 hours' ? '⭐⭐' : selectedTime === '5-10 hours' ? '⭐⭐⭐' : '⭐⭐⭐⭐',
+                        feasibility_score: "8.5/10",
+                        timeline: selectedTime === '10+ hours' ? "3-5 days" : "5-7 days",
+                        today_action: `Create 3 sample ${skills.toLowerCase()} pieces and reach out to 5 potential clients ${selectedMarket === 'online' ? 'through social media' : 'in your area'}.`,
+                        success_example: "Previous clients have seen success with this approach in their first week."
+                    }
+                ];
+                displayFreeSample(generatedIdeas[0]);
+            }
+        }
+
+        // Display Free Sample
+        function displayFreeSample(idea) {
+            const sampleCard = document.getElementById('sample-idea-card');
+            sampleCard.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-custom-purple mb-2">💡 ${idea.name}</h3>
+                        <p class="text-gray-700 mb-3">${idea.description}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-semibold text-custom-purple">${idea.startup_cost}</div>
+                        <div class="text-sm text-gray-500">startup cost</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                    <div class="text-center">
+                        <div class="text-lg font-semibold">📊 ${idea.difficulty}</div>
+                        <div class="text-xs text-gray-500">Difficulty</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-semibold text-custom-purple">🎯 ${idea.feasibility_score}</div>
+                        <div class="text-xs text-gray-500">Feasibility</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-semibold text-custom-lavender">⏱️ ${idea.timeline}</div>
+                        <div class="text-xs text-gray-500">First $100</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-semibold text-custom-pink">🚀 Today</div>
+                        <div class="text-xs text-gray-500">Action Step</div>
+                    </div>
+                </div>
+                
+                <div class="bg-custom-peach border border-custom-pink rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">🎯 Your First Step Today:</h4>
+                    <pre class="text-gray-700 whitespace-pre-wrap font-sans text-sm">${idea.today_action}</pre>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 italic">"${idea.success_example}"</p>
+                </div>
+            `;
+        }
+
+        // Display Implementation Guide for Premium
+        function displayImplementationGuide() {
+            const container = document.getElementById('ideas-container');
+            if (!generatedIdeas.length) return;
+            
+            const idea = generatedIdeas[0];
+            const skillsInput = document.getElementById('skills-input').value;
+            const skills = selectedSkills.length ? selectedSkills.join(', ') : skillsInput;
+            
+            container.innerHTML = `
+                <!-- Business Overview -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">📋 Business Analysis</h3>
+                    <div class="space-y-4">
+                        <p><strong>Target Market:</strong> Individuals seeking ${skills.toLowerCase()} services ${selectedMarket === 'online' ? 'through digital platforms' : selectedMarket === 'local' ? 'in your local area' : 'both online and locally'}</p>
+                        <p><strong>Competitive Advantage:</strong> Personalized service with your ${selectedTime} availability, starting at just ${idea.startup_cost}</p>
+                        <p><strong>Revenue Projection:</strong> $100 in ${idea.timeline}, $500+ by month 2, $1000+ by month 3</p>
+                    </div>
+                </div>
+
+                <!-- 30-Day Launch Plan -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">📅 30-Day Launch Calendar</h3>
+                    <div class="space-y-3">
+                        <div><strong>Week 1:</strong> Setup phase - Create profiles, build portfolio, establish pricing</div>
+                        <div><strong>Week 2:</strong> Content creation - Develop samples, write descriptions, take photos</div>
+                        <div><strong>Week 3:</strong> Launch & outreach - Go live, contact prospects, social media push</div>
+                        <div><strong>Week 4:</strong> Optimize & scale - Review feedback, adjust pricing, expand reach</div>
+                    </div>
+                </div>
+
+                <!-- Email Templates -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">📧 Email Templates Library</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <strong>Initial Outreach:</strong>
+                            <div class="bg-gray-50 p-3 rounded mt-2 text-sm">
+                                "Hi [Name], I noticed you might need ${skills.toLowerCase()} services. I specialize in [specific area] and would love to help you achieve [specific outcome]. Here's a sample of my work: [link]. Would you be interested in a quick 15-minute chat to discuss your needs?"
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Follow-up (3 days later):</strong>
+                            <div class="bg-gray-50 p-3 rounded mt-2 text-sm">
+                                "Hi [Name], Following up on my message about ${skills.toLowerCase()} services. I have availability this week and would love to help you with [specific project]. Would [specific day/time] work for a brief call?"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Strategy -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">📱 Social Media Content Pack</h3>
+                    <div class="space-y-3">
+                        <div><strong>Post Ideas:</strong> Before/after showcases, behind-the-scenes process, client testimonials, tips & tricks, industry insights</div>
+                        <div><strong>Hashtags:</strong> #${skills.replace(/\s+/g, '').toLowerCase()} #freelancer #smallbusiness #${selectedMarket}business #entrepreneur #${skills.split(' ')[0].toLowerCase()}services</div>
+                        <div><strong>Posting Schedule:</strong> 3-5 posts/week, optimal times: 9-11am, 2-4pm, 7-9pm</div>
+                    </div>
+                </div>
+
+                <!-- Customer Acquisition System -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">🎯 Customer Acquisition System</h3>
+                    <div class="space-y-3">
+                        <div><strong>Method 1:</strong> ${selectedMarket.includes('online') ? 'Social media outreach (Instagram, LinkedIn, Facebook groups)' : 'Local networking events and community boards'}</div>
+                        <div><strong>Method 2:</strong> Referral program - Offer 10% commission for successful referrals</div>
+                        <div><strong>Method 3:</strong> Content marketing - Share valuable tips to build authority</div>
+                        <div><strong>Method 4:</strong> Platform presence - ${selectedMarket.includes('online') ? 'Fiverr, Upwork, or industry-specific platforms' : 'NextDoor, local Facebook groups, Chamber of Commerce'}</div>
+                    </div>
+                </div>
+
+                <!-- Scaling Roadmap -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">🚀 Scaling Roadmap</h3>
+                    <div class="space-y-3">
+                        <div><strong>Month 2:</strong> Streamline processes, create templates, raise prices by 20%</div>
+                        <div><strong>Month 3:</strong> Add complementary services, consider first subcontractor</div>
+                        <div><strong>Month 6:</strong> Build team of 2-3 freelancers, focus on high-value clients</div>
+                        <div><strong>Month 12:</strong> $1000+ monthly recurring revenue, explore passive income streams</div>
+                    </div>
+                </div>
+
+                <!-- Success Metrics -->
+                <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender">
+                    <h3 class="text-xl font-bold text-custom-purple mb-3">📊 Success Metrics</h3>
+                    <div class="space-y-3">
+                        <div><strong>Week 1:</strong> 3 portfolio pieces created, 5 prospects contacted</div>
+                        <div><strong>Week 2:</strong> 1 paid project secured, 10 social media followers gained</div>
+                        <div><strong>Month 1:</strong> $100+ earned, 3+ five-star reviews</div>
+                        <div><strong>Month 3:</strong> $500+ monthly revenue, 20% repeat customers</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Countdown Timer
+        function startCountdownTimer() {
+            let timeLeft = 24 * 60 * 60 - 15; // 23:59:45
+            
+            countdownInterval = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                const timerElement = document.getElementById('countdown-timer');
+                if (timerElement) {
+                    timerElement.textContent = 
+                        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Simple, Working PDF Generation
+        function downloadPDF() {
+            if (!window.jsPDF) {
+                alert('PDF library not loaded. Please refresh and try again.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Get business details
+            const idea = generatedIdeas[0] || {};
+            const businessName = idea.name || 'Your Business Plan';
+            const description = idea.description || 'Custom business implementation guide';
+            const skillsInput = document.getElementById('skills-input').value;
+            const skills = selectedSkills.length ? selectedSkills.join(', ') : skillsInput;
+            
+            // Page 1: Cover & Overview
+            doc.setFontSize(20);
+            doc.text(businessName, 20, 30);
+            doc.text('Complete Implementation Guide', 20, 45);
+            
+            doc.setFontSize(12);
+            doc.text('Business Overview:', 20, 70);
+            doc.text(description, 20, 80, { maxWidth: 170 });
+            
+            doc.text('Your Skills: ' + skills, 20, 110);
+            doc.text('Time Investment: ' + selectedTime, 20, 120);
+            doc.text('Startup Budget: $' + selectedBudget, 20, 130);
+            doc.text('Target Market: ' + selectedMarket, 20, 140);
+            
+            // Page 2: Action Plan
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text('30-Day Action Plan', 20, 30);
+            
+            doc.setFontSize(12);
+            const actionPlan = `
+Week 1: Foundation Setup
+- Create business profiles on relevant platforms
+- Develop 3 portfolio samples
+- Set up basic pricing structure
+- Register business name if needed
+
+Week 2: Marketing Foundation  
+- Create social media accounts
+- Write compelling service descriptions
+- Take professional photos/screenshots
+- Build email templates for outreach
+
+Week 3: Customer Acquisition
+- Launch outreach campaign (contact 25 prospects)
+- Post daily on social media
+- Join relevant online communities/groups
+- Offer limited-time introductory pricing
+
+Week 4: Optimization & Scaling
+- Analyze what's working best
+- Adjust pricing based on demand
+- Create systems for repeat customers
+- Plan next month's growth strategy
+            `;
+            
+            doc.text(actionPlan, 20, 50, { maxWidth: 170 });
+            
+            // Page 3: Templates & Scripts
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text('Email Templates & Scripts', 20, 30);
+            
+            doc.setFontSize(12);
+            const templates = `
+Initial Outreach Email:
+"Hi [Name], I noticed you might benefit from ${skills.toLowerCase()} 
+services. I specialize in helping businesses like yours achieve 
+[specific outcome]. Here's a sample of my recent work: [portfolio link]
+
+I have availability this week for new projects. Would you be 
+interested in a brief 15-minute call to discuss how I can help?"
+
+Follow-up Email (Day 3):
+"Hi [Name], Following up on my previous message about ${skills.toLowerCase()}
+services. I wanted to share a relevant case study where I helped 
+[similar business] achieve [specific result].
+
+I still have some availability this week. Would [specific day/time] 
+work for a quick chat about your needs?"
+
+Social Media Posts:
+- "Just completed another ${skills.toLowerCase()} project! Here's what we achieved..."
+- "Quick tip for [target audience]: [helpful insight]"  
+- "Behind the scenes: Here's my process for [service]..."
+            `;
+            
+            doc.text(templates, 20, 50, { maxWidth: 170 });
+            
+            // Save the PDF
+            const fileName = businessName.replace(/[^a-zA-Z0-9]/g, '-') + '-Implementation-Guide.pdf';
+            doc.save(fileName);
+        }
+    </script>
+</body>
 </html>
