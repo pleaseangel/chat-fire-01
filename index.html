@@ -571,7 +571,6 @@ Get the Complete Implementation System with:
         async function showPremiumResults() { 
             document.getElementById('free-sample').classList.add('hidden'); 
             document.getElementById('premium-results').classList.remove('hidden'); 
-            displayAllIdeas(); // Assuming a simple display for now.
             
             downloadPdfBtn.disabled = true;
             try {
@@ -669,11 +668,13 @@ Get the Complete Implementation System with:
                 }); 
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`); 
                 const data = await res.json(); 
-                generatedIdeas = data.ideas || []; 
+                // The new prompt returns a single object, not an array of ideas
+                generatedIdeas = [data.business_plan];
                 if (generatedIdeas.length > 0) { displayFreeSample(generatedIdeas[0]); } 
                 else { throw new Error('No ideas generated'); } 
             } catch (error) { 
                 console.error('AI generation failed:', error); 
+                // Fallback for demo purposes
                 generatedIdeas = [ 
                     { 
                         name: `${skills.includes('Writing') || skills.toLowerCase().includes('writing') ? 'Content Writing Service' : 'Freelance Service'}`, 
@@ -682,9 +683,21 @@ Get the Complete Implementation System with:
                         difficulty: selectedTime === '2-5 hours' ? '⭐⭐' : selectedTime === '5-10 hours' ? '⭐⭐⭐' : '⭐⭐⭐⭐', 
                         feasibility_score: "8.5/10", 
                         timeline: selectedTime === '10+ hours' ? "3-5 days" : "5-7 days", 
-                        today_action: `Create 3 sample ${skills.toLowerCase()} pieces and reach out to 5 potential clients ${selectedMarket === 'online' ? 'through social media' : 'in your area'}.`, 
-                        success_example: "Previous clients have seen success with this approach in their first week." 
-                    } 
+                        today_action: {
+                            tasks: [`Create 3 sample ${skills.toLowerCase()} pieces and reach out to 5 potential clients ${selectedMarket === 'online' ? 'through social media' : 'in your area'}.`]
+                        },
+                        success_story_example: "Previous clients have seen success with this approach in their first week.",
+                        business_analysis: "This is a placeholder for business analysis content.",
+                        launch_calendar: "This is a placeholder for launch calendar content.",
+                        email_templates: "This is a placeholder for email templates content.",
+                        social_media: "This is a placeholder for social media content.",
+                        pricing_strategy: "This is a placeholder for pricing strategy content.",
+                        customer_acquisition: "This is a placeholder for customer acquisition content.",
+                        scaling_roadmap: "This is a placeholder for scaling roadmap content.",
+                        troubleshooting: "This is a placeholder for troubleshooting content.",
+                        resource_directory: "This is a placeholder for resource directory content.",
+                        success_metrics: "This is a placeholder for success metrics content."
+                    }
                 ]; 
                 displayFreeSample(generatedIdeas[0]); 
             } 
@@ -712,36 +725,18 @@ Get the Complete Implementation System with:
                 </div> 
                 <div class="bg-custom-peach border border-custom-pink rounded-lg p-4 mb-4"> 
                     <h4 class="font-semibold text-gray-800 mb-2">🎯 Your First Step Today:</h4> 
-                    <pre class="text-gray-700 whitespace-pre-wrap font-sans text-sm">${idea.today_action}</pre> 
+                    <pre class="text-gray-700 whitespace-pre-wrap font-sans text-sm">${Array.isArray(idea.today_action.tasks) ? idea.today_action.tasks.join('\n') : idea.today_action}</pre> 
                 </div> 
-                <div class="text-center"><p class="text-sm text-gray-600 italic">"${idea.success_example}"</p></div> 
+                <div class="text-center"><p class="text-sm text-gray-600 italic">"${idea.success_story_example}"</p></div> 
             `; 
         } 
  
         // Display All Ideas (for premium) 
-        function displayAllIdeas() { 
-            const container = document.getElementById('ideas-container'); 
-            container.innerHTML = ''; 
-            generatedIdeas.forEach((idea) => { 
-                const ideaCard = document.createElement('div'); 
-                ideaCard.className = 'bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender'; 
-                ideaCard.innerHTML = ` 
-                    <h3 class="text-xl font-bold text-custom-purple mb-3">💼 ${idea.name}</h3> 
-                    <p class="text-gray-700 mb-4">${idea.description}</p> 
-                    <div class="grid grid-cols-2 gap-4 text-sm mb-4"> 
-                        <div><strong>Cost:</strong> ${idea.startup_cost}</div> 
-                        <div><strong>Timeline:</strong> ${idea.timeline}</div> 
-                        <div><strong>Difficulty:</strong> ${idea.difficulty}</div> 
-                        <div><strong>Success Rate:</strong> ${idea.feasibility_score}</div> 
-                    </div> 
-                    <div class="bg-gray-50 rounded-lg p-3"> 
-                        <h4 class="font-semibold mb-2">Today's Action Plan:</h4> 
-                        <pre class="text-sm text-gray-700 whitespace-pre-wrap font-sans">${idea.today_action}</pre> 
-                    </div> 
-                `; 
-                container.appendChild(ideaCard); 
-            }); 
-        } 
+        // This function is no longer used, as we are displaying a single comprehensive plan
+        function displayAllIdeas() {
+          const container = document.getElementById('ideas-container');
+          container.innerHTML = 'All ideas are now consolidated into a single comprehensive plan below.';
+        }
  
         // Countdown Timer 
         function startCountdownTimer() { 
@@ -768,7 +763,7 @@ Get the Complete Implementation System with:
     function getPlanInputs() {
       const skillsInput = document.getElementById('skills-input')?.value || '';
       const skills = (window.selectedSkills && selectedSkills.length) ? selectedSkills.join(', ') : skillsInput;
-      const firstIdea = (window.generatedIdeas && generatedIdeas[0]) || {};
+      const firstIdea = (window.generatedIdeas && window.generatedIdeas[0]) || {};
       const description = firstIdea.description || 'Comprehensive implementation guide';
       return {
         businessName: firstIdea.name || 'Business Plan',
@@ -817,10 +812,26 @@ Get the Complete Implementation System with:
       order.forEach(([key, label]) => {
         const block = document.createElement('div');
         block.className = 'bg-white rounded-xl p-6 shadow-lg border-2 border-custom-lavender mt-6';
+        let contentHtml = '';
         const content = sections[key] || 'No data provided.';
+
+        if (typeof content === 'string') {
+            contentHtml = `<pre class="whitespace-pre-wrap text-sm text-gray-800 font-sans">${content}</pre>`;
+        } else if (typeof content === 'object' && content !== null) {
+            contentHtml = '<ul>';
+            for (const subKey in content) {
+                if (Object.prototype.hasOwnProperty.call(content, subKey)) {
+                    contentHtml += `<li><strong>${subKey}:</strong> <pre>${JSON.stringify(content[subKey], null, 2)}</pre></li>`;
+                }
+            }
+            contentHtml += '</ul>';
+        } else {
+            contentHtml = 'No data provided.';
+        }
+
         block.innerHTML = `
           <h3 class="text-xl font-bold text-custom-purple mb-3">${label}</h3>
-          <pre class="whitespace-pre-wrap text-sm text-gray-800 font-sans">${content}</pre>
+          ${contentHtml}
         `;
         container.appendChild(block);
       });
@@ -875,12 +886,27 @@ Get the Complete Implementation System with:
           <h1 style="font-size:22pt; margin:60px 0 20px;">${title}</h1>
           <h2 style="font-size:16pt; margin:30px 0 10px;">Table of Contents</h2>
           <ol>${blocks.map(([h],i)=>`<li>${i+1}. ${h}</li>`).join('')}</ol>
-          ${blocks.map(([h,txt])=>`
+          ${blocks.map(([h,txt])=>{
+            let contentHtml = '';
+            if (typeof txt === 'string') {
+              contentHtml = `<pre style="white-space:pre-wrap; font-size:11pt; line-height:1.4;">${txt}</pre>`;
+            } else if (typeof txt === 'object' && txt !== null) {
+              contentHtml = '<ul style="padding-left: 20px;">';
+              for (const key in txt) {
+                if (Object.prototype.hasOwnProperty.call(txt, key)) {
+                  contentHtml += `<li><strong>${key}:</strong> <pre style="white-space:pre-wrap; font-size:11pt; line-height:1.4;">${JSON.stringify(txt[key], null, 2)}</pre></li>`;
+                }
+              }
+              contentHtml += '</ul>';
+            } else {
+              contentHtml = `<pre style="white-space:pre-wrap; font-size:11pt; line-height:1.4;">No data provided.</pre>`;
+            }
+            return `
             <div style="page-break-before:always;">
               <h2 style="font-size:16pt; margin:24px 0 10px;">${h}</h2>
-              <pre style="white-space:pre-wrap; font-size:11pt; line-height:1.4;">${(txt||'No data provided.')}</pre>
+              ${contentHtml}
             </div>
-          `).join('')}
+          `;}).join('')}
         </section>`;
     }
     
