@@ -65,7 +65,7 @@ Make this something you'd be comfortable telling your own family member to start
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return { statusCode: 500, body: "Missing OPENAI_API_KEY" };
   
-  const r = await fetch("https://api.openai.com/v1/chat/completions", {
+  const r = await fetch("[https://api.openai.com/v1/chat/completions](https://api.openai.com/v1/chat/completions)", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
