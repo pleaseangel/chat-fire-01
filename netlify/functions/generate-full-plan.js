@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   const { businessName, skills, time, budget, market, description } = JSON.parse(event.body || "{}");
 
   const prompt = `
-You are a business implementation strategist creating a comprehensive 30-day business launch system.
+You are a business implementation strategist creating a comprehensive 30-day business launch system. You are an expert at creating actionable, detailed, and non-generic plans. You must provide a plan for ALL sections requested.
 
 Business: ${businessName}
 Skills: ${skills}
@@ -15,7 +15,7 @@ Budget: $${budget}
 Market: ${market}
 Base concept: ${description}
 
-Create a complete business-in-a-box implementation guide with these exact sections:
+Create a complete business-in-a-box implementation guide with these exact sections. The content for each section must be a detailed, formatted string or a structured JSON object. Do not leave any section with "No data provided."
 
 1. BUSINESS ANALYSIS
 - Target customer profile with demographics
@@ -86,7 +86,7 @@ Return JSON format: {"sections": {"business_analysis": "...", "launch_calendar":
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return { statusCode: 500, body: "Missing OPENAI_API_KEY" };
 
-  const r = await fetch("https://api.openai.com/v1/chat/completions", {
+  const r = await fetch("[https://api.openai.com/v1/chat/completions](https://api.openai.com/v1/chat/completions)", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
